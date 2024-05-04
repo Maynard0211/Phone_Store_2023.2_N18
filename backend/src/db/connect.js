@@ -1,7 +1,4 @@
 import mysql from 'mysql2';
-import responseError from '../api/res/response.js';
-import { callRes } from '../api/res/response.js';
-import { response } from 'express';
 
 const connection = mysql.createConnection({
     host: '127.0.0.1',

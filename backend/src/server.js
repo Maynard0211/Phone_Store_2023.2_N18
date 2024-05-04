@@ -3,14 +3,13 @@ import multer from 'multer'
 import cors from 'cors'
 import path from 'path'
 import { v4 as uuidv4} from 'uuid'
-// import { route } from "./api/routes/index.js"
-import connection from "./db/connect.js"
+import { route } from "./api/routes/index.js"
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-// route(app);
+route(app);
 
 // API Creation
 app.get("/", (req, res) => {
