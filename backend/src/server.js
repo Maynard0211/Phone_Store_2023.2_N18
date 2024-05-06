@@ -4,6 +4,7 @@ import cors from 'cors'
 import path from 'path'
 import { v4 as uuidv4} from 'uuid'
 import { route } from "./api/routes/index.js"
+import connection from "./db/connect.js"
 
 const app = express();
 
@@ -39,10 +40,14 @@ app.post("/upload", upload.any(), (req, res) => {
 });
 
 const port = process.env.PORT || 4000;
-app.listen(port, (error) => {
-    if (!error) {
-        console.log(`Server is running on port ${port}. http://localhost:${port}`);
-    } else {
-        console.log('Error' + error);
-    }
+connection.then(() => {
+    app.listen(port, (error) => {
+        if (!error) {
+            console.log(`Server is running on port ${port}. http://localhost:${port}`);
+        } else {
+            console.log('Error' + error);
+        }
+    });
+}).catch(error => {
+    console.error('Error connecting to MongoDB:', error);
 });
