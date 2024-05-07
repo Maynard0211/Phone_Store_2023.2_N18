@@ -69,20 +69,14 @@ router.post('/login', async (req, res) => {
                     },
                     JWT_SECRET
                 );
-                const updateSql = 'UPDATE users SET token = ? WHERE id = ?';
-                connection.query(updateSql, [token, results[0].id], (err, updateResult) => {
-                    if (err) {
-                        return callRes(res, responseError.UNKNOWN_ERROR, null);
-                    }
-                    let data = {
-                        token,
-                        id: results[0].id,
-                        username: results[0].username,
-                        avatar: results[0].avatar,
-                        is_block: results[0].is_block,
-                    }
-                    return callRes(res, responseError.OK, data);
-                });
+                let data = {
+                    token,
+                    id: results[0].id,
+                    username: results[0].username,
+                    avatar: results[0].avatar,
+                    is_block: results[0].is_block,
+                }
+                return callRes(res, responseError.OK, data);
             }else return callRes(res, responseError.PARAMETER_VALUE_IS_INVALID,null);
         });
     });

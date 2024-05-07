@@ -3,7 +3,6 @@ CREATE TABLE users (
   username VARCHAR(50) NOT NULL,
   password VARCHAR(255) NOT NULL,
   email VARCHAR(100),
-  token VARCHAR(255),
   avatar VARCHAR(100),
   role VARCHAR(255),
   is_block INT default(0)
@@ -44,6 +43,15 @@ CREATE TABLE orderedproduct (
   FOREIGN KEY (orderId) REFERENCES orders(id),
   FOREIGN KEY (productId) REFERENCES product(id)
 );
+
+CREATE TABLE cart (
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  userId INT NOT NULL,
+  productId INT NOT NULL,
+  quantity INT NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id),
+  FOREIGN KEY (productId) REFERENCES product(id)
+)
 
 INSERT INTO users (username, password, role, is_block)
 VALUES ('user1', '1', 'user', 0);
