@@ -140,15 +140,14 @@ function setAndSendResponse(res, responseError) {
 }
 
 function callRes(res, responseErrorName, data = null) {
+    if (responseErrorName != responseError.OK){
+        if (data) responseErrorName.body.data = JSON.stringify(data);
+    }
+    else {
+        responseErrorName.body.data = JSON.stringify(data);
+    }
     console.log(responseErrorName);
-  if (responseErrorName != responseError.OK){
-    if (data) responseErrorName.body.data = JSON.stringify(data);
     return res.status(responseErrorName.statusCode).send(JSON.stringify(responseErrorName.body));
-  }
-  else {
-    responseErrorName.body.data = JSON.stringify(data);
-    return res.status(responseErrorName.statusCode).send(JSON.stringify(responseErrorName.body));
-  }
 }
 
 export default responseError;
