@@ -1,13 +1,12 @@
 import express from "express";
-import responseError from "../response/response.js";
-import { callRes } from "../response/response.js";
+import responseError from "../res/response.js";
+import { callRes } from "../res/response.js";
 
 // Import database connection
 import connection from "../../db/connect.js";
 
 const router = express.Router();
 
-const JWT_SECRET = "";
 router.get("/get/:id", (req, res) => {
   const hoaDonId = req.params.id;
 

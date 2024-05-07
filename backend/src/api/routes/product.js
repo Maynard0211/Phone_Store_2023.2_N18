@@ -31,6 +31,7 @@ router.post("/add", (req, res) => {
 router.get("/get", (req, res) => {
   var query = `select p.id,p.name,p.description,p.image,p.price,p.quantity,p.sold,p.status,c.name as categoryName from product as p INNER JOIN category as c where p.categoryId=c.id`;
   connection.query(query, (err, results) => {
+    console.log(err);
     if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
     return callRes(res, responseError.OK, results);
   });
@@ -61,7 +62,7 @@ router.patch("/update", (req, res) => {
       product.name,
       product.description,
       product.image,
-      product.sold,
+      product.sold,   
       product.quantity,
       product.price,
       product.id,

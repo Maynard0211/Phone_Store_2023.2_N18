@@ -1,19 +1,18 @@
-import express, { response } from 'express';
+import express from 'express';
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
-import fs from 'fs';
 import validInput from '../utils/validInput.js';
-import responseError, { callRes } from '../response/response.js';
+import responseError, { callRes } from '../res/response.js';
 
 // Import database connection
 import connection from '../../db/connect.js';
 
 const router = express.Router();
 
-const JWT_SECRET = 'maBiMat';
+const JWT_SECRET = 'secret_code';
 
 // API đăng ký
 router.post('/signup', async (req, res) => {
@@ -117,7 +116,7 @@ router.post('/logout', async (req, res) => {
 // Set up multer for file upload
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './src/public/img');
+        cb(null, '../../../upload/images');
     },
     filename: function (req, file, cb) {
         const fileName = 'avatar-' + `${uuidv4()}${path.extname(file.originalname)}`;
