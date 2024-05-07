@@ -8,36 +8,36 @@ import connection from "../../db/connect.js";
 const router = express.Router();
 
 router.get("/get/:id", (req, res) => {
-  const hoaDonId = req.params.id;
+  const orderId = req.params.id;
 
   connection.query(
-    "SELECT * FROM HoaDonBan WHERE id = ?",
-    [hoaDonId],
-    (error, hoaDonResults) => {
+    "SELECT * FROM orders WHERE id = ?",
+    [orderId],
+    (error, orderResults) => {
       if (error) {
         console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
         res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
         return;
       }
 
-      if (hoaDonResults.length === 0) {
+      if (orderResults.length === 0) {
         res.status(404).json({ error: "Không tìm thấy hóa đơn bán" });
       } else {
-        const hoaDon = hoaDonResults[0];
-        connection.query("SELECT sp.*, p.name AS tenSanPham FROM SanPham sp JOIN product p ON sp.productId = p.id WHERE hoaDonBanId = ?",
-          // "SELECT * FROM SanPham WHERE hoaDonBanId = ?aaa",
-          [hoaDonId],
-          (error, sanPhamResults) => {
+        const order = orderResults[0];
+        connection.query("SELECT op.*, p.name AS productName FROM orderedproduct sp JOIN product p ON op.productId = p.id WHERE orderId = ?",
+          // "SELECT * FROM orderedproduct WHERE orderId = ?aaa",
+          [orderId],
+          (error, orderedProductResults) => {
             if (error) {
               console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
               res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
               return;
             }
             console.log(query);
-            hoaDon.sanPham = sanPhamResults;
-            console.log(sanPhamResults);
-            console.log(hoaDonResults);
-            res.json(hoaDon);
+            order.orderedProduct = orderedProductResults;
+            console.log(orderedProductResults);
+            console.log(orderResults);
+            res.json(order);
           }
         );
       }
@@ -47,12 +47,12 @@ router.get("/get/:id", (req, res) => {
 
 // API DELETE: Xóa hóa đơn bán theo ID
 router.delete("/delete/:id", (req, res) => {
-  const hoaDonId = req.params.id;
+  const orderId = req.params.id;
 
   connection.query(
-    "DELETE FROM SanPham WHERE hoaDonBanId = ?",
-    [hoaDonId],
-    (error, deleteSanPhamResults) => {
+    "DELETE FROM orderedproduct WHERE orderId = ?",
+    [orderId],
+    (error, deleteOrderedProductResults) => {
       if (error) {
         console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
         res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
@@ -60,16 +60,16 @@ router.delete("/delete/:id", (req, res) => {
       }
 
       connection.query(
-        "DELETE FROM HoaDonBan WHERE id = ?",
-        [hoaDonId],
-        (error, deleteHoaDonResults) => {
+        "DELETE FROM orders WHERE id = ?",
+        [orderId],
+        (error, deleteOrderResults) => {
           if (error) {
             console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
             res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
             return;
           }
 
-          if (deleteHoaDonResults.affectedRows === 0) {
+          if (deleteOrderResults.affectedRows === 0) {
             res.status(404).json({ error: "Không tìm thấy hóa đơn bán" });
           } else {
             res.json({ message: "Xóa hóa đơn bán thành công" });
@@ -83,25 +83,25 @@ router.delete("/delete/:id", (req, res) => {
 // API POST: Thêm hóa đơn bán mới
 
 router.get("/get", (req, res) => {
-  connection.query("SELECT * FROM HoaDonBan", (error, hoaDonResults) => {
+  connection.query("SELECT * FROM orders", (error, orderResults) => {
     if (error) {
       console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
       res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
       return;
     }
 
-    const promises = hoaDonResults.map((hoaDon) => {
+    const promises = orderResults.map((order) => {
       return new Promise((resolve, reject) => {
         connection.query(
-          "SELECT * FROM SanPham WHERE hoaDonBanId = ?",
-          [hoaDon.id],
-          (error, sanPhamResults) => {
+          "SELECT * FROM orderedproduct WHERE orderId = ?",
+          [order.id],
+          (error, orderedProductResults) => {
             if (error) {
               console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
               reject(error);
             } else {
-              hoaDon.sanPham = sanPhamResults;
-              resolve(hoaDon);
+              order.orderedProduct = orderedProductResults;
+              resolve(order);
             }
           }
         );
@@ -109,8 +109,8 @@ router.get("/get", (req, res) => {
     });
 
     Promise.all(promises)
-      .then((hoasDonWithProducts) => {
-        res.json(hoasDonWithProducts);
+      .then((orderWithProducts) => {
+        res.json(orderWithProducts);
       })
       .catch((error) => {
         console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
@@ -121,41 +121,40 @@ router.get("/get", (req, res) => {
 
 router.post("/add", (req, res) => {
   const {
-    tenKhachHang,
-    SDT,
-    diaChi,
-    sanPham,
-    ngay,
-    thoiGianBaoHanh,
+    customerName,
+    phone,
+    address,
+    date,
+    warranty,
     description,
   } = req.body;
   const query =
-    "INSERT INTO HoaDonBan (tenKhachHang, SDT, diaChi, ngay, thoiGianBaoHanh, description) VALUES (?, ?, ?, ?, ?, ?)";
+    "INSERT INTO orders (customerName, phone, address, date, warranty, description) VALUES (?, ?, ?, ?, ?, ?)";
 
   connection.query(
     query,
-    [tenKhachHang, SDT, diaChi, ngay, thoiGianBaoHanh, description],
-    (error, insertHoaDonResults) => {
+    [customerName, phone, address, date, warranty, description],
+    (error, insertOrderResults) => {
       if (error) {
-        console.log(insertHoaDonResults);
+        console.log(insertOrderResults);
         console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
         res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
         return;
       }
 
-      const hoaDonId = insertHoaDonResults.insertId;
-      const sanPhamValues = sanPham.map((item) => [
-        hoaDonId,
+      const orderId = insertOrderResults.insertId;
+      const orderedProductValues = orderedProduct.map((item) => [
+        orderId,
         item.productId,
-        item.soLuong,
-        item.donGia,
-        item.soLuong * item.donGia,
+        item.quantity,
+        item.price,
+        item.quantity * item.price,
       ]);
 
       connection.query(
-        "INSERT INTO SanPham (hoaDonBanId, productId, soLuong, donGia, tongTien) VALUES ?",
-        [sanPhamValues],
-        (error, insertSanPhamResults) => {
+        "INSERT INTO orderedproduct (orderId, productId, quantity, price, total) VALUES ?",
+        [orderedProductValues],
+        (error, insertOrderedProductResults) => {
           if (error) {
             console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
             res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
@@ -165,11 +164,11 @@ router.post("/add", (req, res) => {
           // Cập nhật trường 'sold' và giảm trường 'quantity' trong bảng 'product'
           const updateProductQuery =
             "UPDATE product SET sold = sold + ?, quantity = quantity - ? WHERE id = ?";
-          sanPham.forEach((item) => {
+          orderedProduct.forEach((item) => {
             console.log(item);
             connection.query(
               updateProductQuery,
-              [item.soLuong, item.soLuong, item.productId],
+              [item.quantity, item.quantity, item.productId],
               (error) => {
                 if (error) {
                   console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
