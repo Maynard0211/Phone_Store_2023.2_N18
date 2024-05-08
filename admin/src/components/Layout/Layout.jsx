@@ -7,8 +7,10 @@ import { Switch, Route, withRouter, Redirect } from "react-router";
 import PropTypes from "prop-types";
 
 // -- Custom Components
+import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
-import Login from "C:/Users/LE NHAT DUC/Phone_Store_2023.2_N18/admin/src/pages/login/Login";
+import Header from "../Header/Header";
+import Dashboard from "../../pages/dashboard/DashBoard";
 
 // -- Component Styles
 import s from "./Layout.module.scss";
@@ -20,9 +22,9 @@ const Layout = (props) => {
         <Header />
         <Sidebar />
         <main className={s.content}>
-          {/* <Breadcrumbs url={props.location.pathname} /> */}
           <Switch>
-            <Route path="/template" exact component={Login}/>
+            <Route path="/template" exact render={() => <Redirect to="template/dashboard"/>} />
+            <Route path="/template/dashboard" exact component={Dashboard}/> 
           </Switch>
         </main>
         <Footer />
