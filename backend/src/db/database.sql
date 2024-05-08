@@ -51,7 +51,7 @@ CREATE TABLE cart (
   quantity INT NOT NULL,
   FOREIGN KEY (userId) REFERENCES users(id),
   FOREIGN KEY (productId) REFERENCES product(id)
-)
+);
 
 INSERT INTO users (username, password, role, is_block)
 VALUES ('user1', '1', 'user', 0);
