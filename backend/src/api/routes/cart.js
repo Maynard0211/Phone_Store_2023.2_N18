@@ -9,14 +9,20 @@ import connection from "../../db/connect.js";
 const router = express.Router();
 
 const JWT_SECRET = 'secret_code';
+
 // Thêm sản phẩm vào cart của user
 router.post("/addToCart", (req, res) => {
     const { token, productID, quantity } = req.body;
 
     if (!token) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
     // Giải mã token, lấy ra userId
-    const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-    const userID = decoded.userId;
+    try {
+      const decoded = jsonwebtoken.verify(token, JWT_SECRET);
+      const userID = decoded.userId;
+      }
+      catch (error) {
+        return callRes(res, responseError.TOKEN_IS_INVALID,null);
+    }
     
 
     // Kiểm tra tính hợp lệ của dữ liệu (tùy chọn)
@@ -39,14 +45,20 @@ router.post("/addToCart", (req, res) => {
     );
   });
 
+
 //Xem danh sách sản phẩm trong card của user
 router.get("/get", async(req, res) => {
   const {token} = req.body;
   // Kiểm tra xem token có tồn tại không
   if (!token) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
   // Giải mã token, lấy ra userId  
-  const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-  const userID = decoded.userId;
+  try {
+    const decoded = jsonwebtoken.verify(token, JWT_SECRET);
+    const userID = decoded.userId;
+    }
+    catch (error) {
+      return callRes(res, responseError.TOKEN_IS_INVALID,null);
+    }
   
   const query = ` SELECT FROM cart WHERE userId = ? `;
   if (!userID) {
@@ -63,15 +75,20 @@ router.get("/get", async(req, res) => {
   );
 });
 
+
 // Xóa sản phẩm khỏi cart của user
 router.delete("/deleteFromCart", async (req, res) => {
   const { token, productID } = req.body;
   // Kiểm tra xem token có tồn tại không
   if (!token) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
   // Giải mã token, lấy ra userId  
+  try {
   const decoded = jsonwebtoken.verify(token, JWT_SECRET);
   const userID = decoded.userId;
-
+  }
+  catch (error) {
+    return callRes(res, responseError.TOKEN_IS_INVALID,null);
+  }
   // Kiểm tra tính hợp lệ của dữ liệu
   if (!userID || !productID) {
     return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
@@ -96,15 +113,21 @@ router.delete("/deleteFromCart", async (req, res) => {
     return callRes(res, responseError.UNKNOWN_ERROR, null);
   } 
 });
+
+
 // Cập nhật số lượng sản phẩm vào cart của user
 router.patch("/updateCart", async (req, res) => {
   const { token, productID, quantity } = req.body;
 
   if (!token) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
   // Giải mã token, lấy ra userId  
-  const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-  const userID = decoded.userId;
-    
+  try {
+    const decoded = jsonwebtoken.verify(token, JWT_SECRET);
+    const userID = decoded.userId;
+    }
+    catch (error) {
+      return callRes(res, responseError.TOKEN_IS_INVALID,null);
+    }
   // Kiểm tra tính hợp lệ của dữ liệu
   if (!userID || !productID || !quantity) {
     return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
@@ -130,5 +153,6 @@ router.patch("/updateCart", async (req, res) => {
     return callRes(res, responseError.UNKNOWN_ERROR, null);
   } 
 });
+
 
 export { router };
