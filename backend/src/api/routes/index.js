@@ -8,7 +8,7 @@ function route(app) {
     app.use('/product', productRouter);
     app.use('/category', categoryRouter);
     app.use('/order', orderRouter);
-    app.use('/use', userRouter);
+    app.use('/user', userRouter);
     app.use('/cart', cartRouter);
 }
 
