@@ -14,8 +14,11 @@ import Dashboard from "../../pages/dashboard/DashBoard";
 
 // -- Component Styles
 import s from "./Layout.module.scss";
+import InsertProduct from "../InsertProduct/InsertProduct";
 import CreatePhoneSale from "../CreatePhoneSale/CreatePhoneSale";
+import ViewsPhoneSale from "../ViewsPhoneSale/ViewsPhoneSale";
 import CreateEnterPhone from "../CreateEnterPhone/CreateEnterPhone";
+import ViewsEnterPhone from "../ViewsEnterPhone/ViewsEnterPhone";
 
 const Layout = (props) => {
   return (
@@ -27,8 +30,11 @@ const Layout = (props) => {
           <Switch>
             <Route path="/template" exact render={() => <Redirect to="template/dashboard"/>} />
             <Route path="/template/dashboard" exact component={Dashboard}/> 
+            <Route path="/template/insertProduct" component={InsertProduct} />
             <Route path="/template/createPhoneSale" exact component={CreatePhoneSale} />
+            <Route path="/template/viewsPhoneSale" exact component={ViewsPhoneSale} />
             <Route path="/template/createEnterPhone" exact component={CreateEnterPhone} />
+            <Route path="/template/viewsEnterPhone" exact component={ViewsEnterPhone} />
           </Switch>
         </main>
         <Footer />
