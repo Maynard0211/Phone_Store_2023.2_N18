@@ -14,11 +14,17 @@ import Dashboard from "../../pages/dashboard/DashBoard";
 
 // -- Component Styles
 import s from "./Layout.module.scss";
+import Orders from "../Orders/Orders";
+import Products from "../Products/Products";
+import EditProduct from "../EditProduct/EditProduct";
 import InsertProduct from "../InsertProduct/InsertProduct";
 import CreatePhoneSale from "../CreatePhoneSale/CreatePhoneSale";
+import EditPhoneSale from "../EditPhoneSale/EditPhoneSale";
 import ViewsPhoneSale from "../ViewsPhoneSale/ViewsPhoneSale";
 import CreateEnterPhone from "../CreateEnterPhone/CreateEnterPhone";
+import EditEnterPhone from "../EditEnterPhone/EditEnterPhone";
 import ViewsEnterPhone from "../ViewsEnterPhone/ViewsEnterPhone";
+import { Chart } from "../Chart/Chart";
 
 const Layout = (props) => {
   return (
@@ -30,11 +36,17 @@ const Layout = (props) => {
           <Switch>
             <Route path="/template" exact render={() => <Redirect to="template/dashboard"/>} />
             <Route path="/template/dashboard" exact component={Dashboard}/> 
+            <Route path="/template/products" exact component={Products} />
+            <Route path="/template/editProduct/:slug" component={EditProduct} />
             <Route path="/template/insertProduct" component={InsertProduct} />
             <Route path="/template/createPhoneSale" exact component={CreatePhoneSale} />
+            <Route path="/template/editPhoneSale/:slug" exact component={EditPhoneSale} />
             <Route path="/template/viewsPhoneSale" exact component={ViewsPhoneSale} />
             <Route path="/template/createEnterPhone" exact component={CreateEnterPhone} />
+            <Route path="/template/editEnterPhone/:slug" exact component={EditEnterPhone} />
             <Route path="/template/viewsEnterPhone" exact component={ViewsEnterPhone} />
+            <Route path="/template/chart" exact component={Chart} />
+            <Route path="/template/orders" exact component={Orders} />
           </Switch>
         </main>
         <Footer />
