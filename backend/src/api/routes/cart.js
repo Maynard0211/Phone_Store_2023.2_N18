@@ -15,19 +15,19 @@ const JWT_SECRET = 'secret_code';
 // Thêm sản phẩm vào cart của user
 router.post("/add", fetchUser,(req, res) => {
   try {  
-  const {userId,productId,quantity} = req.body;
+  const {userId,productId} = req.body;
   // Kiểm tra tính hợp lệ của dữ liệu (tùy chọn)
-    if (!userId || !productId || !quantity) {
+    if (!userId || !productId ) {
       return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
     }
     
     // Tạo câu truy vấn SQL
-    const query = `INSERT INTO cart (userId, productId, quantity) VALUES (?, ?, ?)`;
+    const query = `INSERT INTO cart (userId, productId, quantity) VALUES (?, ?, 1)`;
   
     // Thực hiện truy vấn
     connection.query(
       query,
-      [userId, productId, quantity],
+      [userId, productId],
       (err, results) => {
         console.log(err);
         if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
@@ -101,22 +101,22 @@ router.delete("/delete", fetchUser,async (req, res) => {
 
 
 // Cập nhật số lượng sản phẩm vào cart của user
-router.patch("/update", fetchUser,async (req, res) => {
+router.patch("/remove", fetchUser,async (req, res) => {
   try {
-  const {userId,productId,quantity} = req.body;
+  const {userId,productId} = req.body;
   // Kiểm tra tính hợp lệ của dữ liệu
-  if (!userId || !productId || !quantity) {
+  if (!userId || !productId ) {
     return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
   }
   
   // Tạo câu truy vấn SQL
-  const query = ` UPDATE cart SET quantity = '${quantity}' WHERE userId = '${userId}' AND productId = '${productId}'`;
+  const query = `UPDATE cart SET quantity = quantity - 1 WHERE productId = '${productId}' AND userId = '${userId}'  AND quantity > 0 `;
   if (!userId) {
     return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
   }
   connection.query(
     query,
-    [userId,productId,quantity],
+    [userId,productId],
     (err, results) => {
       console.log(err);
       if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
