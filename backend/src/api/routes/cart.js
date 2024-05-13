@@ -2,29 +2,21 @@ import express, { query } from "express";
 import jsonwebtoken from 'jsonwebtoken';
 import responseError from "../res/response.js";
 import { callRes } from "../res/response.js";
-
+import { fetchUser } from '../middlewares/fetchUserIDFromToken.js';
 
 // Import database connection
 import connection from "../../db/connect.js";
 
+
 const router = express.Router();
 
-const JWT_SECRET = 'maBiMat';
+const JWT_SECRET = 'secret_code';
 
 // Thêm sản phẩm vào cart của user
-router.post("/addToCart", (req, res) => {
-    const { token} = req.body;
-    
-    if (!token) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
-    // Giải mã token, lấy ra userId
-    
-    const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-    const userId = decoded.userId;
-    const productId = decoded.productId;
-    const quantity = decoded.quantity;
-    
-
-    // Kiểm tra tính hợp lệ của dữ liệu (tùy chọn)
+router.post("/add", fetchUser,(req, res) => {
+  try {  
+  const {userId,productId,quantity} = req.body;
+  // Kiểm tra tính hợp lệ của dữ liệu (tùy chọn)
     if (!userId || !productId || !quantity) {
       return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
     }
@@ -42,19 +34,22 @@ router.post("/addToCart", (req, res) => {
         return callRes(res, responseError.OK, results);
       }
     );
-  });
+  } catch (err) {
+    callRes(res, responseError.UNKNOWN_ERROR);
+  }
+}
+);
 
 
 //Xem danh sách sản phẩm trong card của user
-router.get("/get", async(req, res) => {
-  const {token} = req.body;
-  // Kiểm tra xem token có tồn tại không
-  if (!token) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
-  // Giải mã token, lấy ra userId  
-  
-  const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-  const userId = decoded.userId;
-  const query = `SELECT name FROM product INNER JOIN users as u WHERE u.id = ${userId} `;
+router.get("/get", fetchUser,async(req, res) => {
+try {
+  const {userId} = req.body;
+  const query = `SELECT p.name
+  FROM product AS p
+  JOIN cart AS c ON p.id = c.productid
+  JOIN users AS u ON c.userId = u.id
+  WHERE u.id =  ${userId} `;
   if (!userId) {
     return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
   }
@@ -67,21 +62,19 @@ router.get("/get", async(req, res) => {
       return callRes(res, responseError.OK, results);
     }
   );
-});
+}
+catch (err) {
+  callRes(res, responseError.UNKNOWN_ERROR);
+}
+}
+);
+
 
 
 // Xóa sản phẩm khỏi cart của user
-router.delete("/deleteFromCart", async (req, res) => {
-  const {token} = req.body;
-  
-  // Kiểm tra xem token có tồn tại không
-  if (!token) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
-  // Giải mã token, lấy ra userId  
-  
-  const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-  const userId = decoded.userId;
-  const productId = decoded.productId;
-  // Kiểm tra tính hợp lệ của dữ liệu
+router.delete("/delete", fetchUser,async (req, res) => {
+  try{
+  const {userId,productId} = req.body;
   if (!userId || !productId) {
     return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
   }
@@ -100,21 +93,17 @@ router.delete("/deleteFromCart", async (req, res) => {
       return callRes(res, responseError.OK, results);
     }
   );
-});
+ } catch (err) {
+  callRes(res, responseError.UNKNOWN_ERROR);
+ }
+}
+);
 
 
 // Cập nhật số lượng sản phẩm vào cart của user
-router.patch("/updateCart", async (req, res) => {
-  const {token} = req.body;
-  
-  // Kiểm tra xem token có tồn tại không
-  if (!token) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
-  // Giải mã token, lấy ra userId  
-  
-  const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-  const userId = decoded.userId;
-  const productId = decoded.productId;
-  const quantity = decoded.quantity;
+router.patch("/update", fetchUser,async (req, res) => {
+  try {
+  const {userId,productId,quantity} = req.body;
   // Kiểm tra tính hợp lệ của dữ liệu
   if (!userId || !productId || !quantity) {
     return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
@@ -134,7 +123,9 @@ router.patch("/updateCart", async (req, res) => {
       return callRes(res, responseError.OK, results);
     }
   );
-  
+} catch (err) {
+  callRes(res, responseError.UNKNOWN_ERROR);
+} 
 });
 
 
