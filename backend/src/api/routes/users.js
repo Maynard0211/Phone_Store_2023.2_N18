@@ -71,7 +71,8 @@ router.post('/login', async (req, res) => {
                     token,
                     username: results[0].username,
                     avatar: results[0].avatar,
-                    is_block: results[0].is_block,
+                    role: result[0].role,
+                    is_block: results[0].is_block
                 }
                 return callRes(res, responseError.OK, data);
             } else return callRes(res, responseError.PARAMETER_VALUE_IS_INVALID,null);
