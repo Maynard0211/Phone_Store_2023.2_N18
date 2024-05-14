@@ -4,9 +4,12 @@ import { callRes } from "../res/response.js";
 
 // Import database connection
 import connection from "../../db/connect.js";
+import { fetchUser } from "../middlewares/fetchUserIDFromToken.js";
 
 const router = express.Router();
 
+
+// API GET: Lấy hoá đơn đặt hàng theo ID
 router.get("/get/:id", (req, res) => {
   const orderId = req.params.id;
 
@@ -24,7 +27,7 @@ router.get("/get/:id", (req, res) => {
         res.status(404).json({ error: "Không tìm thấy hóa đơn bán" });
       } else {
         const order = orderResults[0];
-        connection.query("SELECT op.*, p.name AS productName FROM orderedproduct sp JOIN product p ON op.productId = p.id WHERE orderId = ?",
+        connection.query("SELECT op.*, p.name AS productName FROM orderedproduct op JOIN product p ON op.productId = p.id WHERE orderId = ?",
           // "SELECT * FROM orderedproduct WHERE orderId = ?aaa",
           [orderId],
           (error, orderedProductResults) => {
@@ -33,7 +36,6 @@ router.get("/get/:id", (req, res) => {
               res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
               return;
             }
-            console.log(query);
             order.orderedProduct = orderedProductResults;
             console.log(orderedProductResults);
             console.log(orderResults);
@@ -80,9 +82,8 @@ router.delete("/delete/:id", (req, res) => {
   );
 });
 
-// API POST: Thêm hóa đơn bán mới
-
-router.get("/get", (req, res) => {
+// API GET: Lấy toàn bộ hoá đơn bán
+router.get("/all", (req, res) => {
   connection.query("SELECT * FROM orders", (error, orderResults) => {
     if (error) {
       console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
@@ -107,33 +108,36 @@ router.get("/get", (req, res) => {
         );
       });
     });
-
+    
     Promise.all(promises)
-      .then((orderWithProducts) => {
-        res.json(orderWithProducts);
-      })
-      .catch((error) => {
-        console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
-        res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
-      });
+    .then((orderWithProducts) => {
+      res.json(orderWithProducts);
+    })
+    .catch((error) => {
+      console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
+      res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
+    });
   });
 });
 
-router.post("/add", (req, res) => {
+// API POST: Thêm hóa đơn bán mới
+router.post("/add", fetchUser, (req, res) => {
   const {
+    userId,
     customerName,
     phone,
     address,
     date,
     warranty,
     description,
+    orderedProduct
   } = req.body;
   const query =
-    "INSERT INTO orders (customerName, phone, address, date, warranty, description) VALUES (?, ?, ?, ?, ?, ?)";
-
+  "INSERT INTO orders (userId, customerName, phone, address, date, warranty, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  
   connection.query(
     query,
-    [customerName, phone, address, date, warranty, description],
+    [userId, customerName, phone, address, date, warranty, description],
     (error, insertOrderResults) => {
       if (error) {
         console.log(insertOrderResults);
@@ -182,6 +186,54 @@ router.post("/add", (req, res) => {
           res.json({ message: "Thêm hóa đơn bán thành công" });
         }
       );
+    }
+  );
+});
+
+// API GET: Lấy hoá đơn đặt hàng cho USER
+router.get('/get', fetchUser, (req, res) => {
+  const userId = req.body.userId;
+
+  connection.query(
+    "SELECT * FROM orders WHERE userId = ?",
+    [userId],
+    (error, orderResults) => {
+      if (error) {
+        console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
+        res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
+        return;
+      }
+
+      if (orderResults.length === 0) {
+        res.status(404).json({ error: "Không tìm thấy hóa đơn đặt hàng" });
+      } else {
+        const promises = orderResults.map((order) => {
+          return new Promise((resolve, reject) => {
+            connection.query(
+              "SELECT * FROM orderedproduct WHERE orderId = ?",
+              [order.id],
+              (error, orderedProductResults) => {
+                if (error) {
+                  console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
+                  reject(error);
+                } else {
+                  order.orderedProduct = orderedProductResults;
+                  resolve(order);
+                }
+              }
+            );
+          });
+        });
+
+        Promise.all(promises)
+        .then((orderWithProducts) => {
+          res.json(orderWithProducts);
+        })
+        .catch((error) => {
+          console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
+          res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
+        });
+      }
     }
   );
 });
