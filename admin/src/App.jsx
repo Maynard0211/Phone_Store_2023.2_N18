@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// -- React and related libs
+import React from "react";
+import { Switch, Route, Redirect } from "react-router";
+import { HashRouter } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+// -- Redux
+import { connect } from "react-redux";
 
+// -- Custom Components
+import LayoutComponent from "./components/Layout/Layout";
+import ErrorPage from "./pages/error/ErrorPage";
+import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
+
+// -- Redux Actions
+import { logoutUser } from "./actions/auth";
+
+// -- Third Party Libs
+import { ToastContainer } from "react-toastify";
+
+// -- Services
+import isAuthenticated from "./services/authService";
+
+// -- Component Styles
+import "./styles/app.scss";
+
+const PrivateRoute = ({ dispatch, component, ...rest }) => {
+  if (!isAuthenticated(JSON.parse(localStorage.getItem("authenticated")))) {
+    dispatch(logoutUser());
+    return (<Redirect to="/login" />)
+  } else {
+    return (
+      <Route { ...rest } render={props => (React.createElement(component, props))} />
+    );
+  }
+};
+
+const App = (props) => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <ToastContainer/>
+      <HashRouter>
+        <Switch>
+          <Route path="/" exact render={() => <Redirect to="/template/dashboard" />} />
+          <Route path="/template" exact render={() => <Redirect to="/template/dashboard"/>}/>
+          <PrivateRoute path="/template" dispatch={props.dispatch} component={LayoutComponent} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/error" exact component={ErrorPage} />
+          <Route path="/register" exact component={Register} />
+          <Route component={ErrorPage}/>
+          <Route path='*' exact={true} render={() => <Redirect to="/error" />} />
+        </Switch>
+      </HashRouter>
+    </div>
+  );
 }
 
-export default App
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(App);
