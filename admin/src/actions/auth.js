@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
@@ -32,6 +34,7 @@ export function receiveLogout() {
 export function logoutUser() {
   return (dispatch) => {
     dispatch(requestLogout());
+    localStorage.removeItem('auth-token');
     localStorage.removeItem('authenticated');
     dispatch(receiveLogout());
   };
@@ -39,12 +42,24 @@ export function logoutUser() {
 
 export function loginUser(creds) {
   return (dispatch) => {
-    dispatch(receiveLogin());
-    if (creds.email.length > 0 && creds.password.length > 0) {
-      localStorage.setItem('authenticated', true)
-    } else {
-      dispatch(loginError('Something was wrong. Try again'));
-    }
+    axios.post('http://localhost:4000/user/login', creds)
+      .then(res => {
+        // Kiểm tra xem phản hồi có mã lỗi không
+        if (res.status === 200) {
+          // Lưu token và trạng thái xác thực vào localStorage
+          localStorage.setItem('auth-token', res.data.token);
+          localStorage.setItem('authenticated', true);
+          // Phản hồi thành công, gửi action LOGIN_SUCCESS
+          dispatch(receiveLogin());
+        } else {
+          // Phản hồi không thành công, gửi action LOGIN_FAILURE với thông báo lỗi từ phản hồi
+          dispatch(loginError(res.data.message));
+        }
+      })
+      .catch(error => {
+        // Xử lý lỗi nếu có
+        dispatch(loginError('Something went wrong. Please try again.'));
+      });
   }
 }
 

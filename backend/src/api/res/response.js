@@ -141,10 +141,10 @@ function setAndSendResponse(res, responseError) {
 
 function callRes(res, responseErrorName, data = null) {
     if (responseErrorName != responseError.OK){
-        if (data) responseErrorName.body.data = JSON.stringify(data);
+        if (data) responseErrorName.body = {...responseErrorName.body, ...data};
     }
     else {
-        responseErrorName.body.data = JSON.stringify(data);
+        responseErrorName.body = {...responseErrorName.body, ...data};
     }
     console.log(responseErrorName);
     return res.status(responseErrorName.statusCode).send(JSON.stringify(responseErrorName.body));

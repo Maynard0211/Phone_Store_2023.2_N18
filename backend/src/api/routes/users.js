@@ -17,23 +17,23 @@ const JWT_SECRET = 'secret_code';
 
 // API đăng ký
 router.post('/signup', async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (username === undefined || password === undefined) {
+    if (email === undefined || password === undefined) {
         return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
     }
-    if (typeof username != 'string' || typeof password != 'string') {
+    if (typeof email != 'string' || typeof password != 'string') {
         return callRes(res, responseError.PARAMETER_TYPE_IS_INVALID, null);
     }
-    if (!validInput.checkUserName(username)) {
+    if (!validInput.checkUserName(email)) {
         return callRes(res, responseError.PARAMETER_VALUE_IS_INVALID, null);
     }
     try {
-        connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
+        connection.query('SELECT * FROM users WHERE email = ?', [email], (error, results) => {
             if (error) return callRes(res, responseError.UNKNOWN_ERROR, null);
             if (results.length > 0) return callRes(res, responseError.USER_EXISTED, null);
             bcryptjs.hash(password, 10).then(hashedPassword => {
-                connection.query('INSERT INTO users (username, password) VALUE (?, ?)', [ username,hashedPassword ], (error) => {
+                connection.query('INSERT INTO users (email, password) VALUE (?, ?)', [ email,hashedPassword ], (error) => {
                     if (error) return callRes(res, responseError.UNKNOWN_ERROR, null);
                     return callRes(res, responseError.OK, null);
                 });
@@ -46,15 +46,15 @@ router.post('/signup', async (req, res) => {
 
 //API đăng nhập
 router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     
-    if(!username  || !password ) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
-    if(typeof username != 'string' || typeof password != 'string' ){
+    if(!email  || !password ) return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
+    if(typeof email != 'string' || typeof password != 'string' ){
         return callRes(res, responseError.PARAMETER_TYPE_IS_INVALID,null);
     }
     
-    const sql = 'SELECT * FROM users WHERE username = ?';
-    connection.query(sql, [username], (err, results) => {
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    connection.query(sql, [email], (err, results) => {
         if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
         if (results.length === 0) return callRes(res, responseError.USER_IS_NOT_VALIDATED, null);
         
@@ -71,7 +71,7 @@ router.post('/login', async (req, res) => {
                     token,
                     username: results[0].username,
                     avatar: results[0].avatar,
-                    role: result[0].role,
+                    role: results[0].role,
                     is_block: results[0].is_block
                 }
                 return callRes(res, responseError.OK, data);
