@@ -31,14 +31,16 @@ export function registerUser(payload) {
     axios.post('http://localhost:4000/user/signup', payload.creds)
       .then(res => {
         // Kiểm tra xem phản hồi có mã lỗi không
-        if (res.status === 200) {
+        if (res.data.status === 200) {
           // Phản hồi thành công, gửi action REGISTER_SUCCESS
           dispatch(receiveRegister());
           // Thông báo đăng ký thành công và chuyển đến trang login
+          alert("You've been registered successfully")
           toast.success("You've been registered successfully");
           payload.history.push('/login');
         } else {
           // Phản hồi không thành công, gửi action REGISTER_FAILURE với thông báo lỗi từ phản hồi
+          alert(res.data.message)
           dispatch(registerError(res.data.message));
         }
       })

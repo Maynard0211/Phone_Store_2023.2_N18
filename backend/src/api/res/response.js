@@ -10,36 +10,43 @@ var responseError = {
     POST_IS_NOT_EXISTED: {
         statusCode: 400,
         body: {
-            code: "9992",
+            code: "9991",
             message: "Post is not existed"
         }
     },
     CODE_VERIFY_IS_INCORRECT: {
         statusCode: 400,
         body: {
-            code: "9993",
+            code: "9992",
             message: "Code verify is incorrect"
         }
     },
     NO_DATA_OR_END_OF_LIST_DATA: {
         statusCode: 400,
         body: {
-            code: "9994",
+            code: "9993",
             message: "No Data or end of list data"
         }
     },
     USER_IS_NOT_VALIDATED: {
         statusCode: 401,
         body: {
-            code: "9995",
+            code: "9994",
             message: "User is not validated"
         }
     },
     USER_EXISTED: {
         statusCode: 400,
         body: {
-            code: "9996",
+            code: "9995",
             message: "User existed"
+        }
+    },
+    PASSWORD_IS_INCORRECT: {
+        statusCode: 400,
+        body: {
+            code: "9996",
+            message: "Password is incorrect"
         }
     },
     METHOD_IS_INVALID: {
@@ -147,7 +154,10 @@ function callRes(res, responseErrorName, data = null) {
         responseErrorName.body = {...responseErrorName.body, ...data};
     }
     console.log(responseErrorName);
-    return res.status(responseErrorName.statusCode).send(JSON.stringify(responseErrorName.body));
+    return res.send(JSON.stringify({
+        status: responseErrorName.statusCode, 
+        ...responseErrorName.body
+    }));
 }
 
 export default responseError;

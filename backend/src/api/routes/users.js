@@ -75,7 +75,7 @@ router.post('/login', async (req, res) => {
                     is_block: results[0].is_block
                 }
                 return callRes(res, responseError.OK, data);
-            } else return callRes(res, responseError.PARAMETER_VALUE_IS_INVALID,null);
+            } else return callRes(res, responseError.PASSWORD_IS_INCORRECT,null);
         });
     });
 });

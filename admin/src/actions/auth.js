@@ -45,7 +45,7 @@ export function loginUser(creds) {
     axios.post('http://localhost:4000/user/login', creds)
       .then(res => {
         // Kiểm tra xem phản hồi có mã lỗi không
-        if (res.status === 200) {
+        if (res.data.status === 200) {
           // Lưu token và trạng thái xác thực vào localStorage
           localStorage.setItem('auth-token', res.data.token);
           localStorage.setItem('authenticated', true);
@@ -53,6 +53,7 @@ export function loginUser(creds) {
           dispatch(receiveLogin());
         } else {
           // Phản hồi không thành công, gửi action LOGIN_FAILURE với thông báo lỗi từ phản hồi
+          alert(res.data.message);
           dispatch(loginError(res.data.message));
         }
       })
