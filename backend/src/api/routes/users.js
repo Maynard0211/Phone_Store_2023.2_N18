@@ -17,7 +17,7 @@ const JWT_SECRET = 'secret_code';
 
 // API đăng ký
 router.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
     if (email === undefined || password === undefined) {
         return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
@@ -25,7 +25,7 @@ router.post('/signup', async (req, res) => {
     if (typeof email != 'string' || typeof password != 'string') {
         return callRes(res, responseError.PARAMETER_TYPE_IS_INVALID, null);
     }
-    if (!validInput.checkUserName(email)) {
+    if (!validInput.checkEmail(email)) {
         return callRes(res, responseError.PARAMETER_VALUE_IS_INVALID, null);
     }
     try {
@@ -33,7 +33,7 @@ router.post('/signup', async (req, res) => {
             if (error) return callRes(res, responseError.UNKNOWN_ERROR, null);
             if (results.length > 0) return callRes(res, responseError.USER_EXISTED, null);
             bcryptjs.hash(password, 10).then(hashedPassword => {
-                connection.query('INSERT INTO users (email, password) VALUE (?, ?)', [ email,hashedPassword ], (error) => {
+                connection.query('INSERT INTO users (username, email, password) VALUE (?, ?, ?)', [ username, email, hashedPassword ], (error) => {
                     if (error) return callRes(res, responseError.UNKNOWN_ERROR, null);
                     return callRes(res, responseError.OK, null);
                 });
@@ -106,15 +106,15 @@ router.put('/change_info_after_signup', fetchUser, upload.single('avatar'), asyn
         if(username) {
             if (!validInput.checkUserName(username)) return callRes(res, responseError.PARAMETER_VALUE_IS_INVALID, null);
             if(typeof username != 'string') return callRes(res, responseError.PARAMETER_TYPE_IS_INVALID, null);
-        } 
+        }
         if(email) {
             if (!validInput.checkEmail(email)) return callRes(res, responseError.PARAMETER_VALUE_IS_INVALID, null);
             if(typeof email != 'string') return callRes(res, responseError.PARAMETER_TYPE_IS_INVALID, null);
-        }
+        } 
 
         // Check if the new username is already taken
-        const usernameExists = await connection.promise().query(`SELECT * FROM users WHERE username = '${username}'`);
-        if (usernameExists[0].length) {
+        const emailExists = await connection.promise().query(`SELECT * FROM users WHERE email = '${email}'`);
+        if (emailExists[0].length) {
             return callRes(res, responseError.USER_EXISTED, null);
         }
 
