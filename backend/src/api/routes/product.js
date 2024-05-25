@@ -34,7 +34,7 @@ router.get("/get", (req, res) => {
   connection.query(query, (err, results) => {
     console.log(err);
     if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
-    return res.send(results);
+    return res.status(200).send(results);
   });
 });
 

@@ -13,7 +13,10 @@ const Products = () => {
 
   const fetchAllProduct = async () => {
     await axios.get('http://localhost:4000/product/get')
-      .then((res) => setAllProducts(res.data))
+      .then((res) => {
+        if (res.status === 200)
+          setAllProducts(res.data);
+      })
   }
 
   useEffect(() => {
