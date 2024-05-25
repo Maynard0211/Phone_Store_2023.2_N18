@@ -14,7 +14,7 @@ const Products = () => {
   const fetchAllProduct = async () => {
     await axios.get('http://localhost:4000/product/get')
       .then((res) => {
-        if (res.status === 200)
+        if (res.data.status === 200)
           setAllProducts(res.data);
       })
   }
