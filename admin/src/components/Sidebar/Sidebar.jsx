@@ -79,34 +79,8 @@ const Sidebar = (props) => {
           index="uielements"
           childrenLinks={[
             {
-              header: "Tạo hoá đơn bán",
-              link: "/template/createPhoneSale",
-            },
-            {
               header: "Xem hoá đơn bán",
               link: "/template/viewsPhoneSale",
-            },
-          ]}
-        />
-
-        <LinksGroup
-          onActiveSidebarItemChange={(activeItem) =>
-            props.dispatch(changeActiveSidebarItem(activeItem))
-          }
-          activeItem={props.activeItem}
-          header="Nhập điện thoại"
-          isHeader
-          iconName={<i className={"eva eva-book-outline"} />}
-          link="/template/uielements"
-          index="uielements"
-          childrenLinks={[
-            {
-              header: "Tạo H.Đ nhập",
-              link: "/template/createEnterPhone",
-            },
-            {
-              header: "Xem hoá đơn nhập",
-              link: "/template/viewsEnterPhone",
             },
           ]}
         />
