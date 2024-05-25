@@ -4,7 +4,7 @@ CREATE TABLE users (
   email VARCHAR(100) NOT NULL,
   password VARCHAR(255) NOT NULL,
   avatar VARCHAR(100),
-  role VARCHAR(255),
+  role VARCHAR(255) DEFAULT 'user',
   is_block INT default(0)
 );
 
@@ -20,6 +20,8 @@ CREATE TABLE product(
   description varchar(255),
   image varchar(255),
   price integer,
+  quantity int NOT NULL,
+  sold int NOT NULL DEFAULT 0,
   status varchar(20)
 );
 
@@ -29,7 +31,7 @@ CREATE TABLE orders (
   customername varchar(255) NOT NULL,
   phone varchar(10) NOT NULL,
   address varchar(255) NOT NULL,
-  date varchar(255) NOT NULL,
+  date varchar(255) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   warranty varchar(255) NOT NULL,
   description varchar(1000) NOT NULL,
   FOREIGN KEY (userId) REFERENCES users(id)
