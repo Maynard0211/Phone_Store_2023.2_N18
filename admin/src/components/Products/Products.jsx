@@ -46,7 +46,7 @@ const Products = () => {
               </thead>
               <tbody>
                 {
-                  allProducts && 
+                  allProducts ? 
                   allProducts.map((product, index) => {
                     return (
                       <tr key={index}>
@@ -69,7 +69,8 @@ const Products = () => {
                         </td>
                       </tr>
                     )
-                  })
+                  }) : 
+                  <></>
                 }
               </tbody>
             </table>
