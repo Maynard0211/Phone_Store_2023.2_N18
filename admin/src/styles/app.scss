@@ -471,6 +471,12 @@
          @include xs {
              padding: 60px 20px 5% 60px;
          }
+
+         h1 {
+            font-size: 20px;
+            margin-left: -15px;
+            margin-bottom: 20px;
+         }
      }
  
      &__text {
@@ -869,50 +875,73 @@
      }
  
      &__inputWrapper {
-         display: flex;
-         flex-direction: column;
-         margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+
+        label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+
+            span {
+                color: #ec1616;
+            }
+        }
+
+        input {
+            height: 40px;
+            width: 100%;
+            border: solid 1px $c-03;
+            border-radius: 5px;
+            padding: 0 20px;
+            transition: all 0.2s ease;
+
+            &:focus {
+                border: solid 1px $c-01;
+            }
+        }
+
+        textarea {
+            border: solid 1px $c-03;
+            border-radius: 5px;
+            padding: 10px;
+            transition: all 0.2s ease;
+
+            &:focus {
+                border: solid 1px $c-01;
+            }
+        }
+
+        select {
+            height: 40px;
+            border: solid 1px $c-03;
+            border-radius: 5px;
+            padding: 0 20px;
+        }
+
+        &--horizontal {
+            display: flex;
+            align-items: center;
+            width: 50%;
+      
+            .right__label {
+              width: 30%;
+              text-align: right;
+              margin-right: 1rem;
+            }
+
+            .right__value {
+                width: 70%;
+            }
+        }
  
-         label {
-             margin-bottom: 8px;
-             font-size: 14px;
-             font-weight: bold;
- 
-             span {
-                 color: #ec1616;
-             }
-         }
- 
-         input {
-             height: 40px;
-             width: 100%;
-             border: solid 1px $c-03;
-             border-radius: 5px;
-             padding: 0 20px;
-             transition: all 0.2s ease;
- 
-             &:focus {
-                 border: solid 1px $c-01;
-             }
-         }
- 
-         textarea {
-             border: solid 1px $c-03;
-             border-radius: 5px;
-             padding: 10px;
-             transition: all 0.2s ease;
- 
-             &:focus {
-                 border: solid 1px $c-01;
-             }
-         }
- 
-         select {
-             height: 40px;
-             border: solid 1px $c-03;
-             border-radius: 5px;
-             padding: 0 20px;
-         }
+        &--vertical {
+            .right__value {
+              display: flex;
+              flex-direction: column;
+            }
+        }         
      }
  
      &__infoLogin {
@@ -1060,6 +1089,25 @@
              opacity: 0.7;
          }
      }
+
+     &__grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 1rem;
+    
+        &--row {
+          grid-template-rows: repeat(2, 1fr);
+        }
+    
+        &__label {
+          text-align: right;
+          margin-right: 0.5rem;
+        }
+    
+        &__value {
+          justify-self: start;
+        }
+      }
  }
  
  table tbody tr:nth-child(even) {

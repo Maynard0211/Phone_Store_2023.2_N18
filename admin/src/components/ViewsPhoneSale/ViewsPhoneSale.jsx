@@ -18,28 +18,24 @@ const ViewsPhoneSale = () => {
               <thead>
                 <tr>
                   <th>STT</th>
-                  <th>Tên sản phẩm</th>
-                  <th>Hình ảnh</th>
-                  <th>Giá SP</th>
-                  <th>Đã bán</th>
-                  <th>Từ khoá</th>
+                  <th>Tên khách hàng</th>
+                  <th>Số điện thoại</th>
+                  <th>Địa chỉ</th>
                   <th>Thời gian</th>
-                  <th>Sửa</th>
+                  <th>Tổng hóa đơn</th>
+                  <th>Chi tiết</th>
                   <th>Xoá</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td data-label="STT">1</td>
-                  <td data-label="Tên sản phẩm"> iPhone 14 Pro Max 128GB</td>
-                  <td data-label="Hình ảnh">
-                    <img src={ImgProduct1} alt="" />
-                  </td>
-                  <td data-label="Giá SP">26.680.000₫</td>
-                  <td data-label="Đã bán">1</td>
-                  <td data-label="Từ khoá">mobile</td>
+                  <td data-label="Tên khách hàng"> Phạm Văn A</td>
+                  <td data-label="Số điện thoại"> 0123456789</td>
+                  <td data-label="Địa chỉ"> Thành phố A</td>
                   <td data-label="Thời gian">2020-07-13 21:31:05</td>
-                  <td data-label="Sửa" className="right__iconTable">
+                  <td data-label="Tổng hóa đơn">26.680.000₫</td>
+                  <td data-label="Chi tiết" className="right__iconTable">
                     <Link to="/template/editPhoneSale/iphone14-pro-max-128gb">
                       <img src={IconEdit} alt="" />
                     </Link>
@@ -50,15 +46,12 @@ const ViewsPhoneSale = () => {
                 </tr>
                 <tr>
                   <td data-label="STT">2</td>
-                  <td data-label="Tên sản phẩm">iPhone 13 Pro Max 128GB</td>
-                  <td data-label="Hình ảnh">
-                    <img src={ImgProduct2} alt="" />
-                  </td>
-                  <td data-label="Giá SP">18.500.000₫</td>
-                  <td data-label="Đã bán">0</td>
-                  <td data-label="Từ khoá">mobi</td>
+                  <td data-label="Tên khách hàng">Lê Văn B</td>
+                  <td data-label="Số điện thoại">0246894321</td>
+                  <td data-label="Địa chỉ"> Thành phố B</td>
                   <td data-label="Thời gian">2020-07-13 22:19:01</td>
-                  <td data-label="Sửa" className="right__iconTable">
+                  <td data-label="Tổng hóa đơn">18.500.000₫</td>
+                  <td data-label="Chi tiết" className="right__iconTable">
                     <Link to="/template/editPhoneSale/iphone-13-pro-max-128gb">
                       <img src={IconEdit} alt="" />
                     </Link>
@@ -69,15 +62,12 @@ const ViewsPhoneSale = () => {
                 </tr>
                 <tr>
                   <td data-label="STT">3</td>
-                  <td data-label="Tên sản phẩm">Samsung S21 FE</td>
-                  <td data-label="Hình ảnh">
-                    <img src={ImgProduct3} alt="" />
-                  </td>
-                  <td data-label="Giá SP">12.490.000 ₫</td>
-                  <td data-label="Đã bán">1</td>
-                  <td data-label="Từ khoá">mobi</td>
-                  <td data-label="Thời gian">2020-07-13 21:30:41</td>
-                  <td data-label="Sửa" className="right__iconTable">
+                  <td data-label="Tên khách hàng">Lê Văn F</td>
+                  <td data-label="Số điện thoại">0246894341</td>
+                  <td data-label="Địa chỉ"> Thành phố C</td>
+                  <td data-label="Thời gian">2020-08-13 21:19:41</td>
+                  <td data-label="Tổng hóa đơn">18.500.000₫</td>
+                  <td data-label="Chi tiết" className="right__iconTable">
                     <Link to="/template/editPhoneSale/samsung-s21-fe">
                       <img src={IconEdit} alt="" />
                     </Link>
