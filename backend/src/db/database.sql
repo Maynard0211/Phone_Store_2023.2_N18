@@ -10,25 +10,29 @@ CREATE TABLE users (
 
 CREATE TABLE category(
   id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  name varchar(255) NOT NULL
+  name varchar(255) NOT NULL,
+  image varchar(255) NOT NULL
 );
 
 CREATE TABLE product(
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
   categoryId integer NOT NULL,
-  description varchar(255),
   image varchar(255),
-  price integer,
+  label varchar(255),
+  oldPrice int not null,
+  newPrice int not null,
+  keyword varchar(255),
   quantity int NOT NULL,
   sold int NOT NULL DEFAULT 0,
-  status varchar(20)
+  description varchar(255),
+  status varchar(20) default 'true'
 );
 
 CREATE TABLE orders (
   id INT PRIMARY KEY AUTO_INCREMENT,
   userId INT NOT NULL,
-  customername varchar(255) NOT NULL,
+  customerName varchar(255) NOT NULL,
   phone varchar(10) NOT NULL,
   address varchar(255) NOT NULL,
   date varchar(255) NOT NULL DEFAULT CURRENT_TIMESTAMP,
