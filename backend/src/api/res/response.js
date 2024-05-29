@@ -1,10 +1,10 @@
-var responseError = {
+const responseError = {
     OK: {
         statusCode: 200,
         body: {
             code: "1000",
             message: "OK",
-            data: null
+            results: null
         }
     },
     POST_IS_NOT_EXISTED: {
@@ -148,10 +148,10 @@ function setAndSendResponse(res, responseError) {
 
 function callRes(res, responseErrorName, data = null) {
     if (responseErrorName != responseError.OK){
-        if (data) responseErrorName.body = {...responseErrorName.body, ...data};
+        if (data) responseErrorName.body = {...responseErrorName.body, results: data};
     }
     else {
-        responseErrorName.body = {...responseErrorName.body, ...data};
+        responseErrorName.body = {...responseErrorName.body, results: data};
     }
     console.log(responseErrorName);
     return res.send(JSON.stringify({
