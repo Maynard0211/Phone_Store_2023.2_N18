@@ -25,12 +25,7 @@ import Orders from "../Orders/Orders";
 import Products from "../Products/Products";
 import EditProduct from "../EditProduct/EditProduct";
 import InsertProduct from "../InsertProduct/InsertProduct";
-import CreatePhoneSale from "../CreatePhoneSale/CreatePhoneSale";
-import EditPhoneSale from "../EditPhoneSale/EditPhoneSale";
 import ViewsPhoneSale from "../ViewsPhoneSale/ViewsPhoneSale";
-import CreateEnterPhone from "../CreateEnterPhone/CreateEnterPhone";
-import EditEnterPhone from "../EditEnterPhone/EditEnterPhone";
-import ViewsEnterPhone from "../ViewsEnterPhone/ViewsEnterPhone";
 import { Chart } from "../Chart/Chart";
 
 const Layout = (props) => {
@@ -47,13 +42,8 @@ const Layout = (props) => {
             <Route path="/template/tables" exact component={Tables} />
             <Route path="/template/products" exact component={Products} />
             <Route path="/template/insertProduct" component={InsertProduct} />
-            <Route path="/template/editProduct/:slug" component={EditProduct} />
-            <Route path="/template/createPhoneSale" exact component={CreatePhoneSale} />
+            <Route path="/template/editProduct/:productID" component={EditProduct} />
             <Route path="/template/viewsPhoneSale" exact component={ViewsPhoneSale} />
-            <Route path="/template/editPhoneSale/:slug" exact component={EditPhoneSale} />
-            <Route path="/template/createEnterPhone" exact component={CreateEnterPhone} />
-            <Route path="/template/viewsEnterPhone" exact component={ViewsEnterPhone} />
-            <Route path="/template/editEnterPhone/:slug" exact component={EditEnterPhone} />
             <Route path="/template/chart" exact component={Chart} />
             <Route path="/template/orders" exact component={Orders} />
             <Route path="/template/notifications" exact component={Notifications} />

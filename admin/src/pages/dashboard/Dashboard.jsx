@@ -1,16 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import {
-  Col,
-  Row,
-  Progress,
-  Button,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-} from "reactstrap";
+import axios from 'axios'
 //import Widget from "../../components/Widget/Widget.jsx";
 //import ApexActivityChart from "./components/ActivityChart.jsx";
 
@@ -36,13 +26,39 @@ import IconEdit from "../../assets/icon-edit.svg";
 import IconDelete from "../../assets/icon-trash-black.svg";
 
 const Dashboard = () => {
+  const [allProducts, setAllProducts] = useState([]);
   const [checkboxes, setCheckboxes] = useState([true, false]);
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  const [totalSold, setTotalSold] = useState(0)
 
   const toggleCheckbox = (id) => {
     setCheckboxes((checkboxes) =>
       checkboxes.map((checkbox, index) => (index === id ? !checkbox : checkbox))
     );
   };
+
+  const fetchAllProduct = async () => {
+    await axios.get('http://localhost:4000/product/get')
+      .then((res) => {
+        if (res.data.status === 200)
+          setAllProducts(res.data.results);
+      })
+  }
+
+  useEffect(() => {
+    fetchAllProduct();
+  }, []);
+
+  useEffect(() => {
+    let quantity = 0;
+    let sold = 0;
+    allProducts.forEach((product) => {
+      quantity += product.quantity;
+      sold += product.sold;
+    })
+    setTotalQuantity(quantity);
+    setTotalSold(sold);
+  }, [allProducts])
 
   const meals = [meal1, meal2, meal3];
 
@@ -53,23 +69,23 @@ const Dashboard = () => {
         <p className="right__desc">Bảng điều khiển</p>
         <div className="right__cards">
           <Link className="right__card" to="/template/products">
-            <div className="right__cardTitle">Sản Phẩm</div>
-            <div className="right__cardNumber">72</div>
+            <div className="right__cardTitle">Số Lượng Sản Phẩm</div>
+            <div className="right__cardNumber">{totalQuantity}</div>
             <div className="right__cardDesc">Xem Chi Tiết</div>
           </Link>
-          <Link className="right__card" to="/template/createPhoneSale">
-            <div className="right__cardTitle">Tạo hoá đơn bán</div>
+          <Link className="right__card" to="/template/viewsPhoneSale">
+            <div className="right__cardTitle">Hoá Đơn Đặt Hàng</div>
             <div className="right__cardNumber">12</div>
             <div className="right__cardDesc">Xem Chi Tiết</div>
           </Link>
-          <Link className="right__card" to="/template/createEnterPhone">
-            <div className="right__cardTitle">Nhập điện thoại</div>
-            <div className="right__cardNumber">4</div>
+          <Link className="right__card" to="/template/products">
+            <div className="right__cardTitle">Mẫu Điện Thoại</div>
+            <div className="right__cardNumber">{allProducts.length}</div>
             <div className="right__cardDesc">Xem Chi Tiết</div>
           </Link>
           <Link className="right__card" to="/template/chart">
             <div className="right__cardTitle">Thống kê doanh thu</div>
-            <div className="right__cardNumber">72</div>
+            <div className="right__cardNumber">{totalSold}</div>
             <div className="right__cardDesc">Xem Chi Tiết</div>
           </Link>
         </div>
@@ -91,63 +107,33 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td data-label="STT">1</td>
-                  <td data-label="Tên sản phẩm"> iPhone 14 Pro Max 128GB</td>
-                  <td data-label="Hình ảnh">
-                    <img src={ImgProduct1} alt="" />
-                  </td>
-                  <td data-label="Giá SP">26.680.000₫</td>
-                  <td data-label="Đã bán">1</td>
-                  <td data-label="Từ khoá">mobile</td>
-                  <td data-label="Thời gian">2020-07-13 21:31:05</td>
-                  <td data-label="Sửa" className="right__iconTable">
-                    <Link to="/template/editProduct/iphone14-pro-max-128gb">
-                      <img src={IconEdit} alt="" />
-                    </Link>
-                  </td>
-                  <td data-label="Xoá" className="right__iconTable">
-                    <img src={IconDelete} alt="" />
-                  </td>
-                </tr>
-                <tr>
-                  <td data-label="STT">2</td>
-                  <td data-label="Tên sản phẩm">iPhone 13 Pro Max 128GB</td>
-                  <td data-label="Hình ảnh">
-                    <img src={ImgProduct2} alt="" />
-                  </td>
-                  <td data-label="Giá SP">18.500.000₫</td>
-                  <td data-label="Đã bán">0</td>
-                  <td data-label="Từ khoá">mobi</td>
-                  <td data-label="Thời gian">2020-07-13 22:19:01</td>
-                  <td data-label="Sửa" className="right__iconTable">
-                    <Link to="/template/editProduct/iphone-13-pro-max-128gb">
-                      <img src={IconEdit} alt="" />
-                    </Link>
-                  </td>
-                  <td data-label="Xoá" className="right__iconTable">
-                    <img src={IconDelete} alt="" />
-                  </td>
-                </tr>
-                <tr>
-                  <td data-label="STT">3</td>
-                  <td data-label="Tên sản phẩm">Samsung S21 FE</td>
-                  <td data-label="Hình ảnh">
-                    <img src={ImgProduct3} alt="" />
-                  </td>
-                  <td data-label="Giá SP">12.490.000 ₫</td>
-                  <td data-label="Đã bán">1</td>
-                  <td data-label="Từ khoá">mobi</td>
-                  <td data-label="Thời gian">2020-07-13 21:30:41</td>
-                  <td data-label="Sửa" className="right__iconTable">
-                    <Link to="/template/editProduct/samsung-s21-fe">
-                      <img src={IconEdit} alt="" />
-                    </Link>
-                  </td>
-                  <td data-label="Xoá" className="right__iconTable">
-                    <img src={IconDelete} alt="" />
-                  </td>
-                </tr>
+                {
+                  allProducts ? 
+                  allProducts.map((product, index) => {
+                    return (
+                      <tr key={index}>
+                        <td data-label="STT">{index + 1}</td>
+                        <td data-label="Tên sản phẩm">{product.name}</td>
+                        <td data-label="Hình ảnh">
+                          <img src={ImgProduct1} alt="" />
+                        </td>
+                        <td data-label="Giá SP">{product.price}</td>
+                        <td data-label="Đã bán">{product.sold}</td>
+                        <td data-label="Từ khoá">mobile</td>
+                        <td data-label="Thời gian">2020-07-13 21:31:05</td>
+                        <td data-label="Sửa" className="right__iconTable">
+                          <Link to={`/template/editProduct/${product.id}`}>
+                            <img src={IconEdit} alt="" />
+                          </Link>
+                        </td>
+                        <td data-label="Xoá" className="right__iconTable">
+                          <img src={IconDelete} alt="" />
+                        </td>
+                      </tr>
+                    )
+                  }) : 
+                  <></>
+                }
               </tbody>
             </table>
           </div>
