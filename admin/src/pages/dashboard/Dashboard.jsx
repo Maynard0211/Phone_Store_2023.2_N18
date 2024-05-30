@@ -1,27 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios'
-//import Widget from "../../components/Widget/Widget.jsx";
-//import ApexActivityChart from "./components/ActivityChart.jsx";
 
-import meal1 from "../../assets/dashboard/meal-1.svg";
-import meal2 from "../../assets/dashboard/meal-2.svg";
-import meal3 from "../../assets/dashboard/meal-3.svg";
-//import upgradeImage from "../../assets/dashboard/upgradeImage.svg";
-//import heartRed from "../../assets/dashboard/heartRed.svg";
-// import heartTeal from "../../assets/dashboard/heartTeal.svg";
-// import heartViolet from "../../assets/dashboard/heartViolet.svg";
-// import heartYellow from "../../assets/dashboard/heartYellow.svg";
-// import gymIcon from "../../assets/dashboard/gymIcon.svg";
-// import therapyIcon from "../../assets/dashboard/therapyIcon.svg";
-// import user from "../../assets/user.svg";
-// import statsPie from "../../assets/dashboard/statsPie.svg";
-
-//import s from "./Dashboard.module.scss";
-
-import ImgProduct1 from "../../images/product1.jpg";
-import ImgProduct2 from "../../images/product2.jpg";
-import ImgProduct3 from "../../images/product3.jpg";
 import IconEdit from "../../assets/icon-edit.svg";
 import IconDelete from "../../assets/icon-trash-black.svg";
 
@@ -60,8 +40,6 @@ const Dashboard = () => {
     setTotalSold(sold);
   }, [allProducts])
 
-  const meals = [meal1, meal2, meal3];
-
   return (
     <div className="right">
       <div className="right__content">
@@ -98,10 +76,10 @@ const Dashboard = () => {
                   <th>STT</th>
                   <th>Tên sản phẩm</th>
                   <th>Hình ảnh</th>
+                  <th>Từ khoá</th>
                   <th>Giá SP</th>
                   <th>Đã bán</th>
-                  <th>Từ khoá</th>
-                  <th>Thời gian</th>
+                  <th>Số lượng</th>
                   <th>Sửa</th>
                   <th>Xoá</th>
                 </tr>
@@ -115,12 +93,12 @@ const Dashboard = () => {
                         <td data-label="STT">{index + 1}</td>
                         <td data-label="Tên sản phẩm">{product.name}</td>
                         <td data-label="Hình ảnh">
-                          <img src={ImgProduct1} alt="" />
+                          <img src={product.image} alt="" />
                         </td>
-                        <td data-label="Giá SP">{product.price}</td>
+                        <td data-label="Từ khoá">{product.keyword}</td>
+                        <td data-label="Giá SP">{product.newPrice}</td>
                         <td data-label="Đã bán">{product.sold}</td>
-                        <td data-label="Từ khoá">mobile</td>
-                        <td data-label="Thời gian">2020-07-13 21:31:05</td>
+                        <td data-label="Số lượng">{product.quantity}</td>
                         <td data-label="Sửa" className="right__iconTable">
                           <Link to={`/template/editProduct/${product.id}`}>
                             <img src={IconEdit} alt="" />

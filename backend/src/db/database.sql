@@ -24,7 +24,7 @@ CREATE TABLE product(
   newPrice int not null,
   keyword varchar(255),
   quantity int NOT NULL,
-  sold int NOT NULL DEFAULT 0,
+  sold int DEFAULT 0,
   description varchar(255),
   status varchar(20) default 'true'
 );
@@ -35,7 +35,7 @@ CREATE TABLE orders (
   customerName varchar(255) NOT NULL,
   phone varchar(10) NOT NULL,
   address varchar(255) NOT NULL,
-  date varchar(255) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  date varchar(255) DEFAULT CURRENT_TIMESTAMP,
   warranty varchar(255) NOT NULL,
   description varchar(1000) NOT NULL,
   FOREIGN KEY (userId) REFERENCES users(id)

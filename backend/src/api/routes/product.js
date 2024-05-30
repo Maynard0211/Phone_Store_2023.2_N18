@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/add", (req, res) => {
   let product = req.body;
-  let query = `INSERT INTO product (name, categoryId, image, label, old_price, new_price, keyword, quantity, sold, description) 
+  let query = `INSERT INTO product (name, categoryId, image, label, oldPrice, newPrice, keyword, quantity, description) 
               values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   connection.query(
     query,
@@ -22,7 +22,6 @@ router.post("/add", (req, res) => {
       product.newPrice,
       product.keyword,
       product.quantity,
-      product.sold,
       product.description,
     ],
     (err, results) => {

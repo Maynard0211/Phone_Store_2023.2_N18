@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios'
 
-import ImgProduct1 from "../../images/product1.jpg";
-import ImgProduct2 from "../../images/product2.jpg";
-import ImgProduct3 from "../../images/product3.jpg";
 import IconEdit from "../../assets/icon-edit.svg";
 import IconDelete from "../../assets/icon-trash-black.svg";
 
@@ -23,6 +20,8 @@ const Products = () => {
     fetchAllProduct();
   }, []);
 
+  console.log(allProducts);
+
   return (
     <div className="right">
       <div className="right__content">
@@ -36,10 +35,10 @@ const Products = () => {
                   <th>STT</th>
                   <th>Tên sản phẩm</th>
                   <th>Hình ảnh</th>
+                  <th>Từ khoá</th>
                   <th>Giá SP</th>
                   <th>Đã bán</th>
-                  <th>Từ khoá</th>
-                  <th>Thời gian</th>
+                  <th>Số lượng</th>
                   <th>Sửa</th>
                   <th>Xoá</th>
                 </tr>
@@ -53,12 +52,12 @@ const Products = () => {
                         <td data-label="STT">{index + 1}</td>
                         <td data-label="Tên sản phẩm">{product.name}</td>
                         <td data-label="Hình ảnh">
-                          <img src={ImgProduct1} alt="" />
+                          <img src={product.image} alt="" />
                         </td>
-                        <td data-label="Giá SP">{product.price}</td>
+                        <td data-label="Từ khoá">{product.keyword}</td>
+                        <td data-label="Giá SP">{product.newPrice}</td>
                         <td data-label="Đã bán">{product.sold}</td>
-                        <td data-label="Từ khoá">mobile</td>
-                        <td data-label="Thời gian">2020-07-13 21:31:05</td>
+                        <td data-label="Số lượng">{product.quantity}</td>
                         <td data-label="Sửa" className="right__iconTable">
                           <Link to={`/template/editProduct/${product.id}`}>
                             <img src={IconEdit} alt="" />
