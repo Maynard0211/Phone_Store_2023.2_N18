@@ -20,6 +20,11 @@ const Products = () => {
     fetchAllProduct();
   }, []);
 
+  const formatPrice = (price) => {
+    let priceString = Number(price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    return priceString.replace(/\s/g, '');
+  }
+
   return (
     <div className="right">
       <div className="right__content">
@@ -53,7 +58,7 @@ const Products = () => {
                           <img src={product.image} alt="" />
                         </td>
                         <td data-label="Từ khoá">{product.keyword}</td>
-                        <td data-label="Giá SP">{product.newPrice}</td>
+                        <td data-label="Giá SP">{formatPrice(product.newPrice)}</td>
                         <td data-label="Đã bán">{product.sold}</td>
                         <td data-label="Số lượng">{product.quantity}</td>
                         <td data-label="Sửa" className="right__iconTable">
