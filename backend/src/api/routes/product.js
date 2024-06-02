@@ -56,7 +56,7 @@ router.get("/getById/:id", (req, res, next) => {
   var query = `select * from product where id=?`;
   connection.query(query, [id], (err, results) => {
     if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
-    return callRes(res, responseError.OK, results);
+    return callRes(res, responseError.OK, results[0]);
   });
 });
 

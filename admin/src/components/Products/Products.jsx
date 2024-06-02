@@ -20,8 +20,6 @@ const Products = () => {
     fetchAllProduct();
   }, []);
 
-  console.log(allProducts);
-
   return (
     <div className="right">
       <div className="right__content">

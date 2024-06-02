@@ -41,7 +41,6 @@ const InsertProduct = () => {
     // Upload image of product
     let formData = new FormData();
     formData.append('product', image);
-    console.log(formData);
 
     await axios.post('http://localhost:4000/upload', formData)
       .then(res => {
@@ -51,7 +50,6 @@ const InsertProduct = () => {
       // Add product to database
       if (resData.success) {
         product.image = resData.image_urls[0];
-        console.log(product);
         await axios.post('http://localhost:4000/product/add', product)
          .then(res => {
           res.data.status === 200 ? alert("Product Added") : alert("Failed");
@@ -71,8 +69,6 @@ const InsertProduct = () => {
     })
     setImage(null)
   }
-  
-  console.log(productDetails);
 
   return (
     <div className="right">
