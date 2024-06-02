@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import IconEdit from "../../assets/icon-edit.svg";
 import IconDelete from "../../assets/icon-trash-black.svg";
-import { Link } from "react-router-dom";
 
 const Orders = () => {
+  const [allOrders, setAllOrders] = useState([]);
+
+  const fetchAllOrders = async () => {
+    await axios.get('http://localhost:4000/order/all')
+      .then(res => {
+        if (res.status === 200) {
+          setAllOrders(res.data);
+        }
+      })
+  }
+
+  useEffect(() => {
+    fetchAllOrders();
+  }, [])
+  console.log(allOrders);
+  
   return (
     <div className="right">
       <div className="right__content">
@@ -25,6 +42,30 @@ const Orders = () => {
                 </tr>
               </thead>
               <tbody>
+                {
+                  allOrders ? 
+                  allOrders.map((order, index) => {
+                    return (
+                      <tr key={index}>
+                        <td data-label="STT">{index + 1}</td>
+                        <td data-label="Tên khách hàng">{order.customerName}</td>
+                        <td data-label="Số điện thoại">{order.phone}</td>
+                        <td data-label="Địa chỉ">{order.address}</td>
+                        <td data-label="Thời gian">{order.date}</td>
+                        <td data-label="Tổng hóa đơn">{order.total}</td>
+                        <td data-label="Chi tiết" className="right__iconTable">
+                          <Link to="/template/orderDetails/1">
+                            <img src={IconEdit} alt="" />
+                          </Link>
+                        </td>
+                        <td data-label="Xoá" className="right__iconTable">
+                          <img src={IconDelete} alt="" />
+                        </td>
+                      </tr>
+                    )
+                  }) : 
+                  <></>
+                }
                 <tr>
                   <td data-label="STT">1</td>
                   <td data-label="Tên khách hàng"> Phạm Văn A</td>

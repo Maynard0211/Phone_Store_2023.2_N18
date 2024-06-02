@@ -36,7 +36,7 @@ router.get("/get/:id", (req, res) => {
               res.status(500).json({ error: "Lỗi truy vấn cơ sở dữ liệu" });
               return;
             }
-            order.orderedProduct = orderedProductResults;
+            order.orderedProducts = orderedProductResults;
             console.log(orderedProductResults);
             console.log(orderResults);
             res.json(order);
@@ -94,14 +94,18 @@ router.get("/all", (req, res) => {
     const promises = orderResults.map((order) => {
       return new Promise((resolve, reject) => {
         connection.query(
-          "SELECT * FROM orderedproduct WHERE orderId = ?",
+          `SELECT SUM(op.total) as total
+            FROM orderedproduct op
+            WHERE op.orderId = ?
+            GROUP BY op.orderId;
+          `,
           [order.id],
-          (error, orderedProductResults) => {
+          (error, result) => {
             if (error) {
               console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
               reject(error);
             } else {
-              order.orderedProduct = orderedProductResults;
+              order.total = result[0].total;
               resolve(order);
             }
           }
@@ -110,8 +114,8 @@ router.get("/all", (req, res) => {
     });
     
     Promise.all(promises)
-    .then((orderWithProducts) => {
-      res.json(orderWithProducts);
+    .then((order) => {
+      res.json(order);
     })
     .catch((error) => {
       console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
@@ -127,17 +131,16 @@ router.post("/add", fetchUser, (req, res) => {
     customerName,
     phone,
     address,
-    date,
     warranty,
     description,
-    orderedProduct
+    orderedProducts
   } = req.body;
   const query =
-  "INSERT INTO orders (userId, customerName, phone, address, date, warranty, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  "INSERT INTO orders (userId, customerName, phone, address, warranty, description) VALUES (?, ?, ?, ?, ?, ?)";
   
   connection.query(
     query,
-    [userId, customerName, phone, address, date, warranty, description],
+    [userId, customerName, phone, address, warranty, description],
     (error, insertOrderResults) => {
       if (error) {
         console.log(insertOrderResults);
@@ -147,7 +150,7 @@ router.post("/add", fetchUser, (req, res) => {
       }
 
       const orderId = insertOrderResults.insertId;
-      const orderedProductValues = orderedProduct.map((item) => [
+      const orderedProductValues = orderedProducts.map((item) => [
         orderId,
         item.productId,
         item.quantity,
@@ -168,7 +171,7 @@ router.post("/add", fetchUser, (req, res) => {
           // Cập nhật trường 'sold' và giảm trường 'quantity' trong bảng 'product'
           const updateProductQuery =
             "UPDATE product SET sold = sold + ?, quantity = quantity - ? WHERE id = ?";
-          orderedProduct.forEach((item) => {
+          orderedProducts.forEach((item) => {
             console.log(item);
             connection.query(
               updateProductQuery,
@@ -217,7 +220,7 @@ router.get('/get', fetchUser, (req, res) => {
                   console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
                   reject(error);
                 } else {
-                  order.orderedProduct = orderedProductResults;
+                  order.orderedProducts = orderedProductResults;
                   resolve(order);
                 }
               }
