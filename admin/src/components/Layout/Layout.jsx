@@ -25,7 +25,7 @@ import Orders from "../Orders/Orders";
 import Products from "../Products/Products";
 import EditProduct from "../EditProduct/EditProduct";
 import InsertProduct from "../InsertProduct/InsertProduct";
-import ViewsPhoneSale from "../ViewsPhoneSale/ViewsPhoneSale";
+import OrderDetails from "../OrderDetails/OrderDetails";
 import { Chart } from "../Chart/Chart";
 
 const Layout = (props) => {
@@ -43,9 +43,9 @@ const Layout = (props) => {
             <Route path="/template/products" exact component={Products} />
             <Route path="/template/insertProduct" component={InsertProduct} />
             <Route path="/template/editProduct/:productID" component={EditProduct} />
-            <Route path="/template/viewsPhoneSale" exact component={ViewsPhoneSale} />
             <Route path="/template/chart" exact component={Chart} />
             <Route path="/template/orders" exact component={Orders} />
+            <Route path="/template/orderDetails/:orderID" component={OrderDetails} />
             <Route path="/template/notifications" exact component={Notifications} />
             <Route path="/template/ui-elements" exact render={() => <Redirect to={"/template/ui-elements/charts"} />} />
             <Route path="/template/ui-elements/charts" exact component={Charts} />

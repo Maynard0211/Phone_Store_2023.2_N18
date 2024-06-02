@@ -80,7 +80,7 @@ const Sidebar = (props) => {
           childrenLinks={[
             {
               header: "Xem hoá đơn bán",
-              link: "/template/viewsPhoneSale",
+              link: "/template/orders",
             },
           ]}
         />
