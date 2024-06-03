@@ -19,7 +19,6 @@ const Orders = () => {
   useEffect(() => {
     fetchAllOrders();
   }, [])
-  console.log(allOrders);
 
   const formatPrice = (price) => {
     let priceString = Number(price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
@@ -59,7 +58,7 @@ const Orders = () => {
                         <td data-label="Thời gian">{order.date}</td>
                         <td data-label="Tổng hóa đơn">{formatPrice(order.total)}</td>
                         <td data-label="Chi tiết" className="right__iconTable">
-                          <Link to="/template/orderDetails/1">
+                          <Link to={`/template/orderDetails/${order.id}`}>
                             <img src={IconEdit} alt="" />
                           </Link>
                         </td>
@@ -71,54 +70,6 @@ const Orders = () => {
                   }) : 
                   <></>
                 }
-                <tr>
-                  <td data-label="STT">1</td>
-                  <td data-label="Tên khách hàng"> Phạm Văn A</td>
-                  <td data-label="Số điện thoại"> 0123456789</td>
-                  <td data-label="Địa chỉ"> Thành phố A</td>
-                  <td data-label="Thời gian">2020-07-13 21:31:05</td>
-                  <td data-label="Tổng hóa đơn">26.680.000₫</td>
-                  <td data-label="Chi tiết" className="right__iconTable">
-                    <Link to="/template/orderDetails/1">
-                      <img src={IconEdit} alt="" />
-                    </Link>
-                  </td>
-                  <td data-label="Xoá" className="right__iconTable">
-                    <img src={IconDelete} alt="" />
-                  </td>
-                </tr>
-                <tr>
-                  <td data-label="STT">2</td>
-                  <td data-label="Tên khách hàng">Lê Văn B</td>
-                  <td data-label="Số điện thoại">0246894321</td>
-                  <td data-label="Địa chỉ"> Thành phố B</td>
-                  <td data-label="Thời gian">2020-07-13 22:19:01</td>
-                  <td data-label="Tổng hóa đơn">18.500.000₫</td>
-                  <td data-label="Chi tiết" className="right__iconTable">
-                    <Link to="/template/orderDetails/1">
-                      <img src={IconEdit} alt="" />
-                    </Link>
-                  </td>
-                  <td data-label="Xoá" className="right__iconTable">
-                    <img src={IconDelete} alt="" />
-                  </td>
-                </tr>
-                <tr>
-                  <td data-label="STT">3</td>
-                  <td data-label="Tên khách hàng">Lê Văn F</td>
-                  <td data-label="Số điện thoại">0246894341</td>
-                  <td data-label="Địa chỉ"> Thành phố C</td>
-                  <td data-label="Thời gian">2020-08-13 21:19:41</td>
-                  <td data-label="Tổng hóa đơn">18.500.000₫</td>
-                  <td data-label="Chi tiết" className="right__iconTable">
-                    <Link to="/template/orderDetails/1">
-                      <img src={IconEdit} alt="" />
-                    </Link>
-                  </td>
-                  <td data-label="Xoá" className="right__iconTable">
-                    <img src={IconDelete} alt="" />
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
