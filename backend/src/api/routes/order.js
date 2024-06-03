@@ -27,7 +27,7 @@ router.get("/get/:id", (req, res) => {
         res.status(404).json({ error: "Không tìm thấy hóa đơn bán" });
       } else {
         const order = orderResults[0];
-        connection.query("SELECT op.*, p.name AS productName FROM orderedproduct op JOIN product p ON op.productId = p.id WHERE orderId = ?",
+        connection.query("SELECT p.name as name, p.image as image, op.* FROM orderedproduct op JOIN product p ON op.productId = p.id WHERE orderId = ?",
           // "SELECT * FROM orderedproduct WHERE orderId = ?aaa",
           [orderId],
           (error, orderedProductResults) => {
