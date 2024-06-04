@@ -7,6 +7,7 @@ import IconDelete from "../../assets/icon-trash-black.svg";
 
 const Dashboard = () => {
   const [allProducts, setAllProducts] = useState([]);
+  const [allOrders, setAllOrders] = useState([]);
   const [checkboxes, setCheckboxes] = useState([true, false]);
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [totalSold, setTotalSold] = useState(0)
@@ -17,16 +18,22 @@ const Dashboard = () => {
     );
   };
 
-  const fetchAllProduct = async () => {
+  const fetchData = async () => {
     await axios.get('http://localhost:4000/product/get')
       .then((res) => {
         if (res.data.status === 200)
           setAllProducts(res.data.results);
       })
+
+    await axios.get('http://localhost:4000/order/all')
+      .then((res) => {
+        if (res.status === 200)
+          setAllOrders(res.data)
+      })
   }
 
   useEffect(() => {
-    fetchAllProduct();
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -58,7 +65,7 @@ const Dashboard = () => {
           </Link>
           <Link className="right__card" to="/template/viewsPhoneSale">
             <div className="right__cardTitle">Hoá Đơn Đặt Hàng</div>
-            <div className="right__cardNumber">12</div>
+            <div className="right__cardNumber">{allOrders.length}</div>
             <div className="right__cardDesc">Xem Chi Tiết</div>
           </Link>
           <Link className="right__card" to="/template/products">
