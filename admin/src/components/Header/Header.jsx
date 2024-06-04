@@ -98,32 +98,6 @@ const Header = (props) => {
             <SearchIcon />
           </NavLink>
         </NavItem>
-        <Dropdown nav isOpen={menuOpen} toggle={() => toggleMenu()} className="tutorial-dropdown mr-2 mr-sm-3">
-          <DropdownToggle nav>
-            <div className={s.navbarBlock}>
-              <i className={'eva eva-bell-outline'}/>
-              <div className={s.count}></div>
-            </div>
-          </DropdownToggle>
-          <DropdownMenu right className="navbar-dropdown notifications-dropdown" style={{ width: "340px" }}>
-            <DropdownItem><img src={basketIcon} alt="Basket Icon"/><span>12 new orders have arrived today</span></DropdownItem>
-            <DropdownItem>
-              <div>
-                <div className="d-flex flex-row mb-1">
-                  <img src={mariaImage} alt="Maria" className={s.mariaImage} />
-                  <div className="d-flex flex-column">
-                    <p className="body-3">Maria</p>
-                    <p className="label muted">15 min ago</p>
-                  </div>
-                </div>
-                <img src={notificationImage} alt="Notification Icon" className={s.notificationImage}/>
-                <p className="body-2 muted">It is just a simple image that can define th..</p>
-              </div>
-            </DropdownItem>
-            <DropdownItem><img src={calendarIcon} alt="Calendar Icon"/><span>1 event has been canceled and ...</span></DropdownItem>
-            <DropdownItem><img src={envelopeIcon} alt="Envelope Icon"/><span>you have 2 new messages</span></DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
         <Dropdown isOpen={notificationsOpen} toggle={() => toggleNotifications()} nav id="basic-nav-dropdown" className="ml-3">
           <DropdownToggle nav caret className="navbar-dropdown-toggle">
             <span className={`${s.avatar} rounded-circle float-left mr-2`}>
@@ -132,9 +106,6 @@ const Header = (props) => {
             <span className="small d-none d-sm-block ml-1 mr-2 body-1">admin user</span>
           </DropdownToggle>
           <DropdownMenu className="navbar-dropdown profile-dropdown" style={{ width: "194px" }}>
-            <DropdownItem className={s.dropdownProfileItem}><ProfileIcon/><span>Profile</span></DropdownItem>
-            <DropdownItem className={s.dropdownProfileItem}><TasksIcon/><span>Tasks</span></DropdownItem>
-            <DropdownItem className={s.dropdownProfileItem}><MessagesIcon/><span>Messages</span></DropdownItem>
             <NavLink onClick={() => doLogout()} href="#">
               <button className="btn btn-primary rounded-pill mx-auto logout-btn" type="submit"><img src={logoutIcon} alt="Logout"/><span className="ml-1">Logout</span></button>
             </NavLink>
