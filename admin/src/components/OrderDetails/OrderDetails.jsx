@@ -87,6 +87,9 @@ const OrderDetails = () => {
                   }) : 
                   <></>
                 }
+                <td></td>
+                <td colspan="4" style={{textAlign: "left"}}>TỔNG TIỀN</td>
+                <td></td>
               </tbody>
             </table>
           </div>
