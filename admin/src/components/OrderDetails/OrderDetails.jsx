@@ -87,9 +87,11 @@ const OrderDetails = () => {
                   }) : 
                   <></>
                 }
-                <td></td>
-                <td colspan="4" style={{textAlign: "left"}}>TỔNG TIỀN</td>
-                <td></td>
+                <tr>
+                  <td></td>
+                  <td colSpan="4" style={{textAlign: "left"}}>TỔNG TIỀN</td>
+                  <td>{formatPrice(order.total)}</td>
+                </tr>
               </tbody>
             </table>
           </div>

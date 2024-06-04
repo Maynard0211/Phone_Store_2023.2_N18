@@ -27,7 +27,7 @@ router.get("/get/:id", (req, res) => {
         res.status(404).json({ error: "Không tìm thấy hóa đơn bán" });
       } else {
         const order = orderResults[0];
-        connection.query("SELECT p.name as name, p.image as image, op.* FROM orderedproduct op JOIN product p ON op.productId = p.id WHERE orderId = ?",
+        connection.query("SELECT p.name, p.image, op.quantity, p.newPrice as price, (p.newPrice * op.quantity) as total FROM orderedproduct op JOIN product p ON op.productId = p.id WHERE orderId = ?",
           // "SELECT * FROM orderedproduct WHERE orderId = ?aaa",
           [orderId],
           (error, orderedProductResults) => {
@@ -37,9 +37,11 @@ router.get("/get/:id", (req, res) => {
               return;
             }
             order.orderedProducts = orderedProductResults;
-            console.log(orderedProductResults);
-            console.log(orderResults);
-            res.json(order);
+            let total = 0;
+            orderedProductResults.forEach(product => {
+              total += product.total;
+            })
+            res.json({...order, total: total});
           }
         );
       }
@@ -94,9 +96,9 @@ router.get("/all", (req, res) => {
     const promises = orderResults.map((order) => {
       return new Promise((resolve, reject) => {
         connection.query(
-          `SELECT SUM(op.total) as total
-            FROM orderedproduct op
-            WHERE op.orderId = ?
+          `SELECT SUM(op.quantity * p.newPrice) as total
+            FROM orderedproduct op, product p
+            WHERE op.orderId = ? AND op.productId = p.id
             GROUP BY op.orderId;
           `,
           [order.id],
@@ -153,13 +155,11 @@ router.post("/add", fetchUser, (req, res) => {
       const orderedProductValues = orderedProducts.map((item) => [
         orderId,
         item.productId,
-        item.quantity,
-        item.price,
-        item.quantity * item.price,
+        item.quantity
       ]);
 
       connection.query(
-        "INSERT INTO orderedproduct (orderId, productId, quantity, price, total) VALUES ?",
+        "INSERT INTO orderedproduct (orderId, productId, quantity) VALUES ?",
         [orderedProductValues],
         (error, insertOrderedProductResults) => {
           if (error) {
@@ -213,7 +213,9 @@ router.get('/get', fetchUser, (req, res) => {
         const promises = orderResults.map((order) => {
           return new Promise((resolve, reject) => {
             connection.query(
-              "SELECT * FROM orderedproduct WHERE orderId = ?",
+              `SELECT *, () 
+              FROM orderedproduct op 
+              WHERE orderId = ?`,
               [order.id],
               (error, orderedProductResults) => {
                 if (error) {
