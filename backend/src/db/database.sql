@@ -11,7 +11,7 @@ CREATE TABLE users (
 CREATE TABLE category(
   id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
-  image varchar(255) NOT NULL
+  image varchar(255)
 );
 
 CREATE TABLE product(

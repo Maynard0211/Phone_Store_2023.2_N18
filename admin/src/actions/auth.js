@@ -47,7 +47,7 @@ export function loginUser(creds) {
         // Kiểm tra xem phản hồi có mã lỗi không
         if (res.data.status === 200) {
           // Lưu token và trạng thái xác thực vào localStorage
-          localStorage.setItem('auth-token', res.data.token);
+          localStorage.setItem('auth-token', res.data.results.token);
           localStorage.setItem('authenticated', true);
           // Phản hồi thành công, gửi action LOGIN_SUCCESS
           dispatch(receiveLogin());

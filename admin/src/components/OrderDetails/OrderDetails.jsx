@@ -28,6 +28,11 @@ const OrderDetails = () => {
     fetchOrderDetails();
   }, [])
 
+  const formatPrice = (price) => {
+    let priceString = Number(price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    return priceString.replace(/\s/g, '');
+  }
+
   return (
     <div className="right">
       <div className="right__content">
@@ -74,9 +79,9 @@ const OrderDetails = () => {
                         <td data-label="Hình ảnh">
                           <img src={product.image} alt="" />
                         </td>
-                        <td data-label="Giá SP">{product.price}</td>
+                        <td data-label="Giá SP">{formatPrice(product.price)}</td>
                         <td data-label="Số lượng">{product.quantity}</td>
-                        <td data-label="Tổng tiền">{product.total}</td>
+                        <td data-label="Tổng tiền">{formatPrice(product.total)}</td>
                       </tr>
                     )
                   }) : 
