@@ -85,8 +85,8 @@ const Dashboard = () => {
                   <th>Giá SP</th>
                   <th>Đã bán</th>
                   <th>Số lượng</th>
+                  <th>Trạng thái</th>
                   <th>Sửa</th>
-                  <th>Xoá</th>
                 </tr>
               </thead>
               <tbody>
@@ -104,13 +104,11 @@ const Dashboard = () => {
                         <td data-label="Giá SP">{formatPrice(product.newPrice)}</td>
                         <td data-label="Đã bán">{product.sold}</td>
                         <td data-label="Số lượng">{product.quantity}</td>
+                        <td data-label="Trạng thái"></td>
                         <td data-label="Sửa" className="right__iconTable">
                           <Link to={`/template/editProduct/${product.id}`}>
                             <img src={IconEdit} alt="" />
                           </Link>
-                        </td>
-                        <td data-label="Xoá" className="right__iconTable">
-                          <img src={IconDelete} alt="" />
                         </td>
                       </tr>
                     )
