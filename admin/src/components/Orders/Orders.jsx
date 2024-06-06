@@ -42,7 +42,6 @@ const Orders = () => {
                   <th>Thời gian</th>
                   <th>Tổng hóa đơn</th>
                   <th>Chi tiết</th>
-                  <th>Xoá</th>
                 </tr>
               </thead>
               <tbody>
@@ -61,9 +60,6 @@ const Orders = () => {
                           <Link to={`/template/orderDetails/${order.id}`}>
                             <img src={IconEdit} alt="" />
                           </Link>
-                        </td>
-                        <td data-label="Xoá" className="right__iconTable">
-                          <img src={IconDelete} alt="" />
                         </td>
                       </tr>
                     )
