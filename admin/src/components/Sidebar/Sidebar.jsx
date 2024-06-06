@@ -8,6 +8,7 @@ import LinksGroup from "./LinksGroup/LinksGroup.jsx";
 import { changeActiveSidebarItem } from "../../actions/navigation.js";
 //import SofiaLogo from "../Icons/SofiaLogo.jsx";
 import cn from "classnames";
+import navLogo from "../../assets/nav-logo.svg"
 
 const Sidebar = (props) => {
   const { activeItem = "", ...restProps } = props;
@@ -27,7 +28,7 @@ const Sidebar = (props) => {
   return (
     <nav className={cn(s.root, { [s.sidebarOpen]: burgerSidebarOpen })}>
       <header className={s.logo}>
-        <span className={s.title}>PHONE STORE</span>
+        <img className={s.navLogo} src={navLogo}></img>
       </header>
       <ul className={s.nav}>
         <LinksGroup
