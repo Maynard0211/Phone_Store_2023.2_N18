@@ -77,7 +77,7 @@ const EditProduct = () => {
     <div className="right">
       <div className="right__content">
         <div className="right__title">Bảng điều khiển</div>
-        <p className="right__desc">Thêm điện thoại</p>
+        <p className="right__desc">Cập nhật điện thoại</p>
         <div className="right__formWrapper">
           <form action="" method="post" encType="multipart/form-data">
             <div className="right__inputWrapper">
@@ -144,7 +144,10 @@ const EditProduct = () => {
                 onChange={(e) => handleChange(e)} 
               />
             </div>
-            <div onClick={() => updateProduct()} className="btn">Cập nhật sản phẩm</div>
+            <div style={{display: "flex"}}>
+              <div onClick={() => updateProduct()} className="btn">Cập nhật sản phẩm</div>
+              <div className="btn" style={{backgroundColor: "#d70018"}}>Ngừng bán</div>
+            </div>
           </form>
         </div>
       </div>
