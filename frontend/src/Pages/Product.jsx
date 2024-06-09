@@ -1,5 +1,5 @@
 
-import { ShopContext } from '../Context/ShopContext'
+import { ShopContext } from '../Context/ShopContext';
 import Breadcrumbs from '../Components/Breadcrumbs/Breadcrumbs';
 import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
 import DescriptionBox from '../Components/DescriptionBox/DescriptionBox';
@@ -23,7 +23,6 @@ function Product() {
         (product) ? 
         <>
           <Breadcrumbs product={product} category={product.category} />
-          <div className="clear"></div>
           <ProductDisplay product={product} />
           <DescriptionBox product={product} />
           <RelatedProducts category={product.category} />

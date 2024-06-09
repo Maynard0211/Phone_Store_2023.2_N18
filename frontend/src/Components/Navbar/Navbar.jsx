@@ -8,6 +8,9 @@ import './Navbar.css'
 
 // Import icons from Assets and FontAwesomeIcon
 import logo from '../Assets/logo.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBagShopping, faBars, faPhone, faSearch, faTruckFast, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faCircleUser } from '@fortawesome/free-regular-svg-icons'
 
 function Navbar() {
     const [isMenu, setIsMenu] = useState(false);
@@ -98,11 +101,12 @@ function Navbar() {
                     <span id="items-in-cart">{getTotalItems()}</span>
                 </div>
             </Link>
-            {localStorage.getItem('auth-token')
+            {sessionStorage.getItem('auth-token')
                 ?<div 
                     className="login-btn"
                     onClick={() => {
-                        localStorage.removeItem('auth-token');
+                        sessionStorage.removeItem('auth-token');
+                        sessionStorage.removeItem('user');
                         window.location.replace('/');
                     }}
                 >

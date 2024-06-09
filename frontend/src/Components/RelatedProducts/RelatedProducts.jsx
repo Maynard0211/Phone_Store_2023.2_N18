@@ -3,6 +3,7 @@ import Item from '../Item/Item'
 import { ShopContext } from '../../Context/ShopContext';
 import './RelatedProducts.css'
 
+
 function RelatedProducts({ category }) {
   const {allProducts} = useContext(ShopContext);
   const relatedProducts = allProducts.filter((item) => item.category === category).slice(0, 8);

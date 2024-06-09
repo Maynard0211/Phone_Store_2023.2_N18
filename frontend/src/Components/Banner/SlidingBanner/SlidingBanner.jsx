@@ -1,5 +1,4 @@
 
-
 import './SlidingBanner.css'
 
 import allSlidingBanner from '../../Assets/sliding'

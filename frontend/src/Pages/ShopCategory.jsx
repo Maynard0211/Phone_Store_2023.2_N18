@@ -3,6 +3,7 @@ import { ShopContext } from '../Context/ShopContext';
 import Breadcrumbs from '../Components/Breadcrumbs/Breadcrumbs';
 import Item from '../Components/Item/Item';
 import MenuBottomTabs from '../Components/MenuBottomTabs/MenuBottomTabs';
+
 import './CSS/ShopCategory.css'
 
 import dropdown_icon from '../Components/Assets/dropdown_icon.png'
@@ -35,7 +36,6 @@ function ShopCategory(props) {
   return (
     <div className='category-container'>
       <Breadcrumbs category={props.category} brand={productBrand} />
-      <div className="clear"></div>
       <div className="block-filter-brand">
         <div className="filter-brands-title">Chọn theo thương hiệu</div>
         <div className="list-brand">

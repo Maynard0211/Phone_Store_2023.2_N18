@@ -1,4 +1,3 @@
-import './App.css';
 
 // Import Header and Footer Components
 import Header from './Components/Header/Header';
@@ -9,13 +8,18 @@ import Home from './Pages/Home';
 import ShopCategory from './Pages/ShopCategory'
 import Product from './Pages/Product'
 import Cart from './Pages/Cart'
+import Order from './Pages/Order';
 import LoginSignup from './Pages/LoginSignup'
+
+// Import CSS
+import './App.css';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Header />
+        <div className="clear"></div>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/mobile' element={<ShopCategory category="Mobile" />}>
@@ -28,6 +32,7 @@ function App() {
             <Route path=':productId' element={<Product />} />
           </Route>
           <Route path='/cart' element={<Cart />} />
+          <Route path='/order/*' element={<Order />} />
           <Route path='/login' element={<LoginSignup />} />
         </Routes>
         <Footer />

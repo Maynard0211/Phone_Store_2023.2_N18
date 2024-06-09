@@ -1,5 +1,7 @@
 
 import './MenuBottomTabs.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faCircleUser, faHouse, faPhone, faTruckFast } from '@fortawesome/free-solid-svg-icons';
 import MenuTree from '../MenuTree/MenuTree';
 
 function MenuBottomTabs({ active }) {
