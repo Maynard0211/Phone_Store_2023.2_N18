@@ -1,6 +1,8 @@
-
+import React, { useEffect, useRef, useState } from 'react'
 import './NewCollections.css'
 import Item from '../Item/Item'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 function NewCollections() {
   const [newCollections, setNewCollections] = useState([]);

@@ -1,5 +1,8 @@
+import React from 'react'
 
 import './PaymentModal.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import vnpayIcon from '../Assets/vnpay.png'
 import shipperPayment from '../Assets/shipper-payment.jpg'
 import tickIcon from '../Assets/download.svg'

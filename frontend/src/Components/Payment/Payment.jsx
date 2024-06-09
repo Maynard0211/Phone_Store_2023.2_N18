@@ -1,8 +1,11 @@
-
+import React, { useContext, useState } from 'react'
 import { ShopContext } from '../../Context/ShopContext'
 import PaymentModal from '../PaymentModal/PaymentModal';
+
 import './Payment.css'
 import paymentIcon from '../Assets/payment.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 function Payment({ reciever }) {
   const { orderProducts, formatPrice, getTotalCost } = useContext(ShopContext);

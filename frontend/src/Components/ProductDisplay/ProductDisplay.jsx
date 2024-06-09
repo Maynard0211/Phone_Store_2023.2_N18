@@ -1,6 +1,11 @@
-
+import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../../Context/ShopContext';
+
 import './ProductDisplay.css'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartPlus, faChevronLeft, faChevronRight, faStar } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 function ProductDisplay(props) {
     const {product} = props;

@@ -1,5 +1,8 @@
-
+import React, { useContext } from 'react'
 import { ShopContext } from '../../Context/ShopContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+
 import './PaymentInfo.css'
 
 function PaymentInfo() {
