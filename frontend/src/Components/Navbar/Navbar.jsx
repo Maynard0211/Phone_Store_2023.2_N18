@@ -103,13 +103,13 @@ function Navbar() {
                     <span id="items-in-cart">{getTotalItems()}</span>
                 </div>
             </Link>
-            {sessionStorage.getItem('auth-token')
+            {localStorage.getItem('auth-token')
                 ?<div 
                     className="login-btn"
                     onClick={() => {
-                        sessionStorage.removeItem('auth-token');
-                        sessionStorage.removeItem('user');
-                        window.location.replace('/');
+                        localStorage.removeItem('auth-token');
+                        localStorage.removeItem('user');
+                        window.location.replace('http://localhost:5173');
                     }}
                 >
                     <div className="header-item about-member">
@@ -123,8 +123,12 @@ function Navbar() {
                         </div>
                     </div>
                 </div>
-                :<Link to='/login'>
-                    <div className="login-btn">
+                    :<div 
+                        className="login-btn"
+                        onClick={() => {
+                        window.location.replace('http://localhost:5173');
+                        }}
+                    >
                         <div className="header-item about-member">
                             <div className="box-icon">
                                 <div className="my-icon">
@@ -136,7 +140,6 @@ function Navbar() {
                             </div>
                         </div>
                     </div>
-                </Link>
             }            
         </div>
     </div>

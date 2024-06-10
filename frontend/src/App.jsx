@@ -10,10 +10,24 @@ import ShopCategory from './Pages/ShopCategory'
 import Product from './Pages/Product'
 import Cart from './Pages/Cart'
 import Order from './Pages/Order';
-import LoginSignup from './Pages/LoginSignup'
 
 // Import CSS
 import './App.css';
+
+// Phân tích URL để trích xuất tham số auth-token
+function getAuthTokenFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('auth-token');
+}
+
+// Kiểm tra xem auth-token đã được truyền qua URL hay không
+const authToken = getAuthTokenFromURL();
+if (authToken) {
+  // Lưu auth-token vào localStorage hoặc nơi lưu trữ khác
+  localStorage.setItem('auth-token', authToken);
+  // Sau khi xử lý auth-token, bạn có thể xoá tham số từ URL nếu cần
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
 
 function App() {
   return (
@@ -34,7 +48,6 @@ function App() {
           </Route>
           <Route path='/cart' element={<Cart />} />
           <Route path='/order/*' element={<Order />} />
-          <Route path='/login' element={<LoginSignup />} />
         </Routes>
         <Footer />
       </BrowserRouter>

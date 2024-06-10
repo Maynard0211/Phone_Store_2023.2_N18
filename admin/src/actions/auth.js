@@ -46,11 +46,16 @@ export function loginUser(creds) {
       .then(res => {
         // Kiểm tra xem phản hồi có mã lỗi không
         if (res.data.status === 200) {
-          // Lưu token và trạng thái xác thực vào localStorage
-          localStorage.setItem('auth-token', res.data.results.token);
-          localStorage.setItem('authenticated', true);
-          // Phản hồi thành công, gửi action LOGIN_SUCCESS
-          dispatch(receiveLogin());
+          if(res.data.results.role === 'admin') {
+            // Lưu token và trạng thái xác thực vào localStorage
+            localStorage.setItem('auth-token', res.data.results.token);
+            localStorage.setItem('authenticated', true);
+            // Phản hồi thành công, gửi action LOGIN_SUCCESS
+            dispatch(receiveLogin());
+          } else {
+            const userURL = `http://localhost:3000/?auth-token=${res.data.results.token}`;
+            window.location.replace(userURL);
+          }
         } else {
           // Phản hồi không thành công, gửi action LOGIN_FAILURE với thông báo lỗi từ phản hồi
           alert(res.data.message);

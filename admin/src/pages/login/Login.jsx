@@ -17,7 +17,7 @@ import { loginUser } from "../../actions/auth";
 import hasToken from "../../services/authService";
 
 import loginImage from "../../assets/loginImage.svg";
-import SofiaLogo from "../../components/Icon/SofiaLogo.jsx";
+import logo from "../../assets/logo.png"
 import GoogleIcon from "../../components/Icon/AuthIcons/GoogleIcon.jsx";
 import TwitterIcon from "../../components/Icon/AuthIcons/TwitterIcon.jsx";
 import FacebookIcon from "../../components/Icon/AuthIcons/FacebookIcon.jsx";
@@ -27,8 +27,8 @@ import LinkedinIcon from "../../components/Icon/AuthIcons/LinkedinIcon.jsx";
 const Login = (props) => {
 
   const [state, setState] = useState({
-    email: 'admin@flatlogic.com',
-    password: 'password',
+    email: '',
+    password: '',
   })
 
   const doLogin = (e) => {
@@ -55,13 +55,10 @@ const Login = (props) => {
             <Widget className="widget-auth widget-p-lg">
               <div className="d-flex align-items-center justify-content-between py-3">
                 <p className="auth-header mb-0">Đăng nhập</p>
-                <div className="logo-block">
-                  <SofiaLogo />
-                  <p className="mb-0">YOUR PHONE STORE</p>
+                <div className="nav-logo d-flex mb-2">
+                    <img src={logo} className="mr-2" style={{height: "55px"}} />
+                    <p style={{paddingTop: "18px", fontFamily: "Roboto, sans-serif", fontSize: "20px", fontWeight: "600"}}>SHOPPER</p>
                 </div>
-              </div>
-              <div className="auth-info my-2">
-                <p>Quản lý cửa hàng điện thoại của bạn</p>
               </div>
               <form onSubmit={(event) => doLogin(event)}>
                 <FormGroup className="my-3">
@@ -74,7 +71,7 @@ const Login = (props) => {
                     type="email"
                     required
                     name="email"
-                    placeholder="Email"
+                    placeholder="Nhập email tại đây"
                   />
                 </FormGroup>
                 <FormGroup  className="my-3">
@@ -90,7 +87,7 @@ const Login = (props) => {
                     type="password"
                     required
                     name="password"
-                    placeholder="Password"
+                    placeholder="Nhập mật khẩu tại đây"
                   />
                 </FormGroup>
                 <div className="bg-widget d-flex justify-content-center">
