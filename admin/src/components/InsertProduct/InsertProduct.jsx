@@ -5,9 +5,11 @@ import uploadArea from '../../assets/upload_area.svg'
 
 const InsertProduct = () => {
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [productDetails, setProductDetails] = useState({
     name: "",
     categoryId: "",
+    brandId: "",
     image: "",
     label: "",
     oldPrice: "",
@@ -25,6 +27,15 @@ const InsertProduct = () => {
           setCategories(res.data.results);
       })
   }, [])
+
+  useEffect(() => {
+    if (productDetails.categoryId) {
+      axios.get(`http://localhost:4000/brand/${productDetails.categoryId}`)
+        .then(res => {
+          setBrands(res.data);
+        })
+    }
+  }, [productDetails.categoryId])
 
   const handleChange = (e) => {
     setProductDetails({...productDetails, [e.target.name]: e.target.value});
@@ -94,12 +105,12 @@ const InsertProduct = () => {
             </div>
             <div className="right__inputWrapper">
               <label htmlFor="p_category">Tên thương hiệu</label>
-              <select onChange={(e) => handleChange(e)} value={productDetails.categoryId} name="categoryId">
+              <select onChange={(e) => handleChange(e)} value={productDetails.brandId} name="brandId">
                 <option disabled="">
                   Chọn thương hiệu
                 </option>
-                {categories.map((category, index) => {
-                  return <option key={index} value={category.id}>{category.name}</option>
+                {brands.map((brand, index) => {
+                  return <option key={index} value={brand.id}>{brand.name}</option>
                 })}
               </select>
             </div>
