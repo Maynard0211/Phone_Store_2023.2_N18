@@ -1,19 +1,31 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Item from '../Item/Item'
-import { ShopContext } from '../../Context/ShopContext';
 
 import './RelatedProducts.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
-function RelatedProducts({ category }) {
-  const {allProducts} = useContext(ShopContext);
-  const relatedProducts = allProducts.filter((item) => item.category === category).slice(0, 8);
+function RelatedProducts({ product }) {
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [index, setIndex] = useState(0);
   const [offset, setOffset] = useState(0);
   const elementRef = useRef(null);
   const [width, setWidth] = useState(0);
   const [maxIndex, setMaxIndex] = useState(0);
+
+  useEffect(() => {
+    let list = [];
+
+    axios.get(`http://localhost:4000/product/getByCategory/${product.categoryId}`)
+        .then(res => {
+          if (res.data.status === 200)
+            list = res.data.results
+        })
+
+    list = list.filter(item => item.id !== product.id).slice(0, 8);
+    setRelatedProducts(list)
+  }, [product.categoryId])
 
   useEffect(() => {
     const handleOffset = () => {
@@ -93,9 +105,9 @@ function RelatedProducts({ category }) {
                         <Item 
                           id={product.id}
                           name={product.name}
-                          image={product.images[0]}
-                          new_price={product.new_price}
-                          old_price={product.old_price}
+                          image={product.image}
+                          newPrice={product.newPrice}
+                          oldPrice={product.oldPrice}
                         />
                       </div>
                     )

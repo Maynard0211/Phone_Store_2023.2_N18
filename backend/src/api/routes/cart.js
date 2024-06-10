@@ -66,7 +66,7 @@ router.post("/add", fetchUser, async (req, res) => {
 router.get("/get", fetchUser, async(req, res) => {
   try {
     const {userId} = req.body;
-    const query = `SELECT p.name, p.image, p.newPrice, c.quantity
+    const query = `SELECT p.id, p.name, p.image, p.newPrice, p.oldPrice, c.quantity
     FROM product AS p
     JOIN cart AS c ON p.id = c.productid
     JOIN users AS u ON c.userId = u.id
@@ -90,9 +90,9 @@ router.get("/get", fetchUser, async(req, res) => {
 });
 
 // Xóa sản phẩm khỏi cart của user
-router.delete("/delete", fetchUser,async (req, res) => {
+router.patch("/delete", fetchUser, async (req, res) => {
   try{
-    const {userId,productId} = req.body;
+    const {userId, productId} = req.body;
     if (!userId || !productId) {
       return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH,null);
     }

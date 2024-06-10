@@ -49,11 +49,12 @@ export function loginUser(creds) {
           if(res.data.results.role === 'admin') {
             // Lưu token và trạng thái xác thực vào localStorage
             localStorage.setItem('auth-token', res.data.results.token);
+            localStorage.setItem('user', res.data.userInfo)
             localStorage.setItem('authenticated', true);
             // Phản hồi thành công, gửi action LOGIN_SUCCESS
             dispatch(receiveLogin());
           } else {
-            const userURL = `http://localhost:3000/?auth-token=${res.data.results.token}`;
+            const userURL = `http://localhost:3000/?auth-token=${res.data.results.token}&user-info=${res.data.results.userInfo}`;
             window.location.replace(userURL);
           }
         } else {

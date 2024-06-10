@@ -23,7 +23,7 @@ function ModalViewList({ closeViewList }) {
                 <h5 id="modalViewListItemInQuote_modal-title" className="modal-title">
                   Danh sách sản phẩm đang thanh toán
                 </h5>
-                <button type="button" onClick={closeViewList} aria-label="Close" class="close">×</button>
+                <button type="button" onClick={closeViewList} aria-label="Close" className="close">×</button>
               </header>
               <div id="modalViewListItemInQuote_modal-body" className="modal-body">
                 {
@@ -37,8 +37,8 @@ function ModalViewList({ closeViewList }) {
                             <div>
                               <div className="block-box-price">
                                 <div className="box-info__box-price">
-                                  <p className="product__price--show">{product.new_price}</p>
-                                  <p className="product__price--through">{product.old_price}</p>
+                                  <p className="product__price--show">{product.newPrice}</p>
+                                  <p className="product__price--through">{product.oldPrice}</p>
                                 </div>
                               </div>
                             </div>

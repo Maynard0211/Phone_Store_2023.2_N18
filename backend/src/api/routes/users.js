@@ -70,10 +70,14 @@ router.post('/login', async (req, res) => {
                 );
                 let data = {
                     token,
-                    username: results[0].username,
-                    avatar: results[0].avatar,
-                    role: results[0].role,
-                    is_block: results[0].is_block
+                    userInfo: JSON.stringify({
+                        username: results[0].username,
+                        email: results[0].email,
+                        avatar: results[0].avatar,
+                        role: results[0].role,
+                        is_block: results[0].is_block
+                    }),
+                    role: results[0].role
                 }
                 return callRes(res, responseError.OK, data);
             } else return callRes(res, responseError.PASSWORD_IS_INCORRECT,null);

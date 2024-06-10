@@ -47,6 +47,8 @@ CREATE TABLE orders (
   address varchar(255) NOT NULL,
   date varchar(255) DEFAULT CURRENT_TIMESTAMP,
   warranty varchar(255) NOT NULL,
+  paymentModal varchar(255) NOT NULL,
+  paymentStatus varchar(255) NOT NULL,
   description varchar(1000),
   FOREIGN KEY (userId) REFERENCES users(id)
 );

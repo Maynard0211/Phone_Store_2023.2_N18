@@ -7,11 +7,11 @@ import paymentIcon from '../Assets/payment.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
-function Payment({ reciever }) {
-  const { orderProducts, formatPrice, getTotalCost } = useContext(ShopContext);
+function Payment({ order }) {
+  const { formatPrice, getTotalCost, getTotalItems } = useContext(ShopContext);
   const [isModal, setIsModal] = useState(false);
 
-  const user = JSON.parse(sessionStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user'));
 
   return (
     <>
@@ -30,7 +30,7 @@ function Payment({ reciever }) {
           <div className="info-quote__block">
             <div className="quote-block__item">
               <p className="quote-block__title">Số lượng sản phẩm</p>
-              <p className="quote-block__value">{orderProducts.length}</p>
+              <p className="quote-block__value">{getTotalItems()}</p>
             </div>
             <div className="quote-block__item">
               <p className="quote-block__title">Tiền hàng (tạm tính)</p>
@@ -82,11 +82,11 @@ function Payment({ reciever }) {
             </div>
             <div className="address-quote__item">
               <p className="address-quote__title">Nhận hàng tại</p>
-              <p className="address-quote__value"></p>
+              <p className="address-quote__value">{order.address}</p>
             </div>
             <div className="address-quote__item">
               <p className="address-quote__title">Người nhận</p>
-              <p className="address-quote__value"></p>
+              <p className="address-quote__value">{order.customerName} - {order.phone}</p>
             </div>
           </div>
         </div>

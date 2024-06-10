@@ -19,7 +19,7 @@ router.post('/add', (req, res, next) => {
   });
   
 router.get('/get', async (req,res)=>{
-    var query=`select * from category order by name`;
+    var query=`select * from category`;
     connection.query(query, (err, results) => {
         if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
         return callRes(res, responseError.OK, results);

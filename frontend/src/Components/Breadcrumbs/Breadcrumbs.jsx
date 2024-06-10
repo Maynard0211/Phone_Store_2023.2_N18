@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faHouse } from '@fortawesome/free-solid-svg-icons';
 
 function Breadcrumbs({product, category, brand}) {
-  const lowercaseCategory = category.toLowerCase();
 
   return (
     <>
@@ -20,13 +19,13 @@ function Breadcrumbs({product, category, brand}) {
             </div>
             <div className="breadcrumbs-block">
               <FontAwesomeIcon icon={faChevronRight} />
-              <Link to={`/${lowercaseCategory}`}>{category}</Link>
+              <Link to={`/${category}`}>{category}</Link>
             </div>
             {(brand) ? 
               <div className="breadcrumbs-block">
                 <FontAwesomeIcon icon={faChevronRight} />
                 <Link 
-                  to={`/${lowercaseCategory}/${brand.toLowerCase()}`}
+                  to={`/${category}/${brand.toLowerCase()}`}
                 >
                   {brand}
                 </Link>
