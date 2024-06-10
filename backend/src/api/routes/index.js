@@ -4,10 +4,12 @@ import { router as userRouter } from "./users.js";
 import { router as categoryRouter } from "./category.js";
 import { router as cartRouter } from "./cart.js"
 import { router as addressRouter } from "./address.js";
+import { router as brandRouter } from "./brand.js";
 
 function route(app) {
     app.use('/product', productRouter);
     app.use('/category', categoryRouter);
+    app.use('/brand', brandRouter)
     app.use('/order', orderRouter);
     app.use('/user', userRouter);
     app.use('/cart', cartRouter);

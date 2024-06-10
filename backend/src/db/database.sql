@@ -10,7 +10,13 @@ CREATE TABLE users (
 
 CREATE TABLE category(
   id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  name varchar(255) NOT NULL
+);
+
+CREATE TABLE brand(
+  id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
+  categoryId int NOT NULL,
   image varchar(255)
 );
 
@@ -18,6 +24,7 @@ CREATE TABLE product(
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
   categoryId integer NOT NULL,
+  brandId integer NOT NULL,
   image varchar(255),
   label varchar(255),
   oldPrice int not null,
@@ -26,7 +33,9 @@ CREATE TABLE product(
   quantity int NOT NULL,
   sold int DEFAULT 0,
   description varchar(255),
-  status varchar(20) default 'true'
+  status varchar(20) default 'true',
+  FOREIGN KEY (categoryId) REFERENCES category(id),
+  FOREIGN KEY (brandId) REFERENCES brand(id)
 );
 
 CREATE TABLE orders (
@@ -44,6 +53,7 @@ CREATE TABLE orders (
 CREATE TABLE orderedproduct (
   orderId INT NOT NULL,
   productId INT NOT NULL,
+  price INT NOT NULL,
   quantity INT NOT NULL,
   PRIMARY KEY (orderId, productId),
   FOREIGN KEY (orderId) REFERENCES orders(id),
@@ -59,23 +69,10 @@ CREATE TABLE cart (
   FOREIGN KEY (productId) REFERENCES product(id)
 );
 
-INSERT INTO users (username, password, role, is_block)
-VALUES ('user1', '1', 'user', 0);
+INSERT INTO category(name) VALUES ('Điện thoại');
+INSERT INTO category(name) VALUES ('Laptop');
 
-INSERT INTO users (username, password, role, is_block)
-VALUES ('user2', '2', 'user', 0);
-
-INSERT INTO users (username, password, email, avatar, role, is_block)
-VALUES ('admin1', '1', 'admin1@gmail.com', 'avatar1.png', 'admin', 0);
-
-INSERT INTO users (username, password, email, avatar, role, is_block)
-VALUES ('admin2', '2', 'admin2@gmail.com', 'avatar2.png', 'admin', 0);
-
-INSERT INTO users (username, password, email, avatar, role, is_block)
-VALUES ('admin3', '$2a$10$VWJc1OnYdThT3CJzwk05GOumF5j3eRIvBsqfZDQ1IYM0./JPznKSm', 'admin3@gmail.com', 'avatar2.png', 'admin', 0);
--- $2a$10$VWJc1OnYdThT3CJzwk05GOumF5j3eRIvBsqfZDQ1IYM0./JPznKSm là băm của 3
-
-INSERT INTO category(name) VALUES ('iPhone');
-INSERT INTO category(name) VALUES ('Samsung');
-INSERT INTO category(name) VALUES ('Oppo');
-INSERT INTO category(name) VALUES ('Xiaomi');
+INSERT INTO brand (name, categoryId, image) VALUES ("Apple", 1, "http://localhost:4000/images/8d14c090-5547-4274-a346-bafd26e02c9d.webp");
+INSERT INTO brand (name, categoryId, image) VALUES ("Samsung", 1, "http://localhost:4000/images/0a3ece96-75de-411b-942f-ceba2ff3f351.webp");
+INSERT INTO brand (name, categoryId, image) VALUES ("Xiaomi", 1, "http://localhost:4000/images/ba728fdd-a813-4371-885a-a95f7742ba3f.webp");
+INSERT INTO brand (name, categoryId, image) VALUES ("OPPO", 1, "http://localhost:4000/images/c0ef3f2b-0a3b-4674-849e-1a0ad48afa09.webp");
