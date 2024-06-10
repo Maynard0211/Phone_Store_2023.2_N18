@@ -1,8 +1,8 @@
 import express from 'express'
+import responseError, { callRes } from '../res/response.js';
 
 // Import database connection
 import connection from '../../db/connect.js';
-import responseError, { callRes } from '../res/response.js';
 
 const router = express.Router();
 
@@ -26,8 +26,7 @@ router.get('/:categoryId', (req, res) => {
     let query = 'SELECT * FROM brand WHERE categoryId = ?';
     connection.query(query, [categoryId], (err, results) => {
         console.log(results);
-        if (!results) return callRes(res, responseError.UNKNOWN_ERROR, null);
-        return callRes(res, responseError.OK, results);
+        res.send(results)
     })
 })
 
