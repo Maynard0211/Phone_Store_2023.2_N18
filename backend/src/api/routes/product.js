@@ -130,4 +130,22 @@ router.patch("/updateStatus", (req, res) => {
   });
 });
 
+router.get("/new", (req, res) => {
+  var query = `SELECT * FROM product WHERE label='new'`;
+  connection.query(query, (err, results) => {
+    console.log(err);
+    if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
+    return callRes(res, responseError.OK, results)
+  });
+});
+
+router.get("/sales/:category", (req, res) => {
+  let category = req.params.category;
+  var query = `SELECT * FROM product WHERE label='sales' AND categoryId=?`;
+  connection.query(query, [category], (err, results) => {
+    if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
+    return callRes(res, responseError.OK, results);
+  });
+});
+
 export { router };
