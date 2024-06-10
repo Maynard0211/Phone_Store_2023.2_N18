@@ -18,6 +18,7 @@ const JWT_SECRET = 'secret_code';
 // API đăng ký
 router.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
+    let role = req.body.role || 'user'
 
     if (email === undefined || password === undefined) {
         return callRes(res, responseError.PARAMETER_IS_NOT_ENOUGH, null);
@@ -33,7 +34,7 @@ router.post('/signup', async (req, res) => {
             if (error) return callRes(res, responseError.UNKNOWN_ERROR, null);
             if (results.length > 0) return callRes(res, responseError.USER_EXISTED, null);
             bcryptjs.hash(password, 10).then(hashedPassword => {
-                connection.query('INSERT INTO users (username, email, password) VALUE (?, ?, ?)', [ username, email, hashedPassword ], (error) => {
+                connection.query('INSERT INTO users (username, email, password, role) VALUE (?, ?, ?, ?)', [ username, email, hashedPassword, role ], (error) => {
                     if (error) return callRes(res, responseError.UNKNOWN_ERROR, null);
                     return callRes(res, responseError.OK, null);
                 });

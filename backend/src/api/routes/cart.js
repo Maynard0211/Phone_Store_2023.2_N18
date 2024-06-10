@@ -66,7 +66,7 @@ router.post("/add", fetchUser, async (req, res) => {
 router.get("/get", fetchUser, async(req, res) => {
   try {
     const {userId} = req.body;
-    const query = `SELECT p.name, p.image, p.price, c.quantity
+    const query = `SELECT p.name, p.image, p.newPrice, c.quantity
     FROM product AS p
     JOIN cart AS c ON p.id = c.productid
     JOIN users AS u ON c.userId = u.id

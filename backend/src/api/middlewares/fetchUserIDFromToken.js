@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import responseError, { callRes } from '../res/response.js';
 
 dotenv.config();
 const jwt_secret = 'secret_code';
