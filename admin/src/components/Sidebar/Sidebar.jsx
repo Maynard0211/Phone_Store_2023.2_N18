@@ -49,7 +49,7 @@ const Sidebar = (props) => {
             props.dispatch(changeActiveSidebarItem(activeItem))
           }
           activeItem={props.activeItem}
-          header="Tất Cả Điện thoại "
+          header="Tất Cả Sản Phẩm"
           isHeader
           iconName={<i className={"eva eva-grid-outline"} />}
           link="/template/products"
@@ -61,7 +61,7 @@ const Sidebar = (props) => {
             props.dispatch(changeActiveSidebarItem(activeItem))
           }
           activeItem={props.activeItem}
-          header="Thêm Điện thoại "
+          header="Thêm Sản Phẩm"
           isHeader
           iconName={<i className={"eva eva-book-outline"} />}
           link="/template/insertProduct"
@@ -73,17 +73,11 @@ const Sidebar = (props) => {
             props.dispatch(changeActiveSidebarItem(activeItem))
           }
           activeItem={props.activeItem}
-          header="Bán điện thoại"
+          header="Hóa đơn đặt hàng"
           isHeader
           iconName={<i className={"eva eva-cube-outline"} />}
-          link="/template/uielements"
-          index="uielements"
-          childrenLinks={[
-            {
-              header: "Xem hoá đơn bán",
-              link: "/template/orders",
-            },
-          ]}
+          link="/template/orders"
+          index="typography"
         />
 
         <LinksGroup

@@ -77,7 +77,7 @@ const EditProduct = () => {
     <div className="right">
       <div className="right__content">
         <div className="right__title">Bảng điều khiển</div>
-        <p className="right__desc">Cập nhật điện thoại</p>
+        <p className="right__desc">Cập nhật sản phẩm</p>
         <div className="right__formWrapper">
           <form action="" method="post" encType="multipart/form-data">
             <div className="right__inputWrapper">
@@ -89,6 +89,17 @@ const EditProduct = () => {
               <select onChange={(e) => handleChange(e)} value={productDetails.categoryId} name="categoryId">
                 <option disabled="">
                   Chọn danh mục
+                </option>
+                {categories.map((category, index) => {
+                  return <option key={index} value={category.id}>{category.name}</option>
+                })}
+              </select>
+            </div>
+            <div className="right__inputWrapper">
+              <label htmlFor="p_category">Tên thương hiệu</label>
+              <select onChange={(e) => handleChange(e)} value={productDetails.categoryId} name="categoryId">
+                <option disabled="">
+                  Chọn thương hiệu
                 </option>
                 {categories.map((category, index) => {
                   return <option key={index} value={category.id}>{category.name}</option>
@@ -145,8 +156,8 @@ const EditProduct = () => {
               />
             </div>
             <div style={{display: "flex"}}>
-              <div onClick={() => updateProduct()} className="btn">Cập nhật sản phẩm</div>
-              <div className="btn" style={{backgroundColor: "#d70018"}}>Ngừng bán</div>
+              <div onClick={() => updateProduct()} className="btn" style={{width: "40%"}}>Cập nhật sản phẩm</div>
+              <div className="btn" style={{backgroundColor: "#d70018", width: "40%"}}>Ngừng bán</div>
             </div>
           </form>
         </div>
