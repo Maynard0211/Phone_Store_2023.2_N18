@@ -65,7 +65,7 @@ function Payment({ order }) {
           </div>
         </div>
         <div className="payment-quote__modal">
-          {isModal && <PaymentModal handlePopup={() => setIsModal(!isModal)} />}
+          {isModal && <PaymentModal modal={order.paymentModal} handlePopup={() => setIsModal(!isModal)} />}
         </div>
       </div>
       <div className="address-quote">
