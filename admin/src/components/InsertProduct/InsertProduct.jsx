@@ -70,6 +70,7 @@ const InsertProduct = () => {
     setProductDetails({
       name: "",
       categoryId: "",
+      brandId: "",
       image: "",
       label: "",
       oldPrice: "",
