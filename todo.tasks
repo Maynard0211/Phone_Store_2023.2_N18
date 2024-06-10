@@ -1,0 +1,7 @@
+☐ Cập nhật databse phần order và sửa lại api
+☐ Ghép API thanh toán
+☐ Sửa giao diện Order của user 
+☐ Sửa trạng thái của Order bên phần admin 
+☐ Ghép API cho Order bên admin
+☐ Thêm API tìm kiếm product trên label (với sales thì phải thêm params :categoryId)
+☐ Ghép vào NewCollections.jsx(new) và Popular.jsx(sales)
