@@ -20,13 +20,13 @@ function Item(props) {
             <h3>{props.name}</h3>
           </div>
           <div className="box-price">
-            <p className="item-price-new">{formatPrice(props.new_price)}</p>
-            <p className="item-price-old">{formatPrice(props.old_price)}</p>
+            <p className="item-price-new">{formatPrice(props.newPrice)}</p>
+            <p className="item-price-old">{formatPrice(props.oldPrice)}</p>
             <div className="item-price-percent">
               <p className="item-price-percent-detail">
                 Giảm&nbsp;
                 {
-                  (100 - props.new_price / props.old_price * 100).toFixed(0)
+                  (100 - props.newPrice / props.oldPrice * 100).toFixed(0)
                 }
                 %
               </p>

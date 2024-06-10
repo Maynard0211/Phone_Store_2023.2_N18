@@ -9,7 +9,6 @@ const jwt_secret = 'secret_code';
 const fetchUser = async (req, res, next) => {
     const token = req.header('auth-token');
     if (!token) {
-        console.log(error);
         return callRes(res, responseError.TOKEN_IS_INVALID, null);
     } else {
         try {

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
+import axios from 'axios'
 
 import { ShopContext } from '../Context/ShopContext';
 import Breadcrumbs from '../Components/Breadcrumbs/Breadcrumbs';
@@ -10,34 +11,44 @@ import './CSS/ShopCategory.css'
 
 import dropdown_icon from '../Components/Assets/dropdown_icon.png'
 
-function ShopCategory(props) {
-  const {allProducts} = useContext(ShopContext);
+function ShopCategory({ category }) {
+  const { normalizeString} = useContext(ShopContext);
+  const [products, setProducts] = useState([]);
+  const [brand, setBrand] = useState();
   const {brandName} = useParams();
   const [brandList, setBrandList] = useState([]);
   const [maxIndex, setMaxIndex] = useState(20);
 
-  let productBrand =''
-  let products = allProducts;
-
-  if (brandName) {
-    products = allProducts.filter((item) => {
-      if (item.category === props.category && item.brand.toLowerCase() === brandName) {
-        productBrand = item.brand;
-        return true;
-      }
-      return false;
-    })
-  }
+  useEffect(() => {
+    setBrand(brandList.find(item => item.name.toLowerCase() === brandName))
+  }, [brandName])
 
   useEffect(() => {
-    fetch(`http://localhost:4000/brand/${props.category}`)
-    .then((res) => res.json())
-    .then((data) => setBrandList(data));
-  }, [props.category])
+    axios.get(`http://localhost:4000/brand/${category.id}`)
+      .then((res) => {
+        setBrandList(res.data)
+      })
+  }, [category])
+
+  useEffect(() => {
+    if (brand?.id) {
+      axios.get(`http://localhost:4000/product/getByBrand/${brand.id}`)
+        .then(res => {
+          if (res.data.status === 200)
+            setProducts(res.data.results)
+        })
+    } else {
+      axios.get(`http://localhost:4000/product/getByCategory/${category.id}`)
+        .then(res => {
+          if (res.data.status === 200)
+            setProducts(res.data.results)
+        })
+    }
+  }, [brand, category])
 
   return (
     <div className='category-container'>
-      <Breadcrumbs category={props.category} brand={productBrand} />
+      <Breadcrumbs category={category.name} brand={brand?.name} />
       <div className="block-filter-brand">
         <div className="filter-brands-title">Chọn theo thương hiệu</div>
         <div className="list-brand">
@@ -47,7 +58,7 @@ function ShopCategory(props) {
               return (
                 <Link
                   key={index}
-                  to={`/${props.category.toLowerCase()}/${brand.name.toLowerCase()}`}
+                  to={`/${normalizeString(category.name)}/${brand.name.toLowerCase()}`}
                   className='list-brand-item'
                 >
                   <img src={brand.image} alt={brand.name} className="brand-img" />
@@ -73,9 +84,9 @@ function ShopCategory(props) {
                 key={index}
                 id={product.id}
                 name={product.name}
-                image={product.images[0]}
-                new_price={product.new_price}
-                old_price={product.old_price}
+                image={product.image}
+                newPrice={product.newPrice}
+                oldPrice={product.oldPrice}
               />
             )
           })}

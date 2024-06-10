@@ -97,8 +97,8 @@ function NewCollections() {
                           id={product.id}
                           name={product.name}
                           image={product.images[0]}
-                          new_price={product.new_price}
-                          old_price={product.old_price}
+                          newPrice={product.newPrice}
+                          oldPrice={product.oldPrice}
                         />
                       </div>
                     )

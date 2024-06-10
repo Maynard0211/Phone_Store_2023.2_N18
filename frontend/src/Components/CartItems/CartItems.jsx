@@ -78,12 +78,12 @@ function CartItems() {
                             <label className='custom-control-label' htmlFor={`__checkbox__${index}`}>
                                 <img src={product.image} alt={product.name} className='cartitem-product-icon' />
                             </label>
-                            <p>{product.name} - {product.color}</p>
-                            <div><p>{formatPrice(product.new_price)}</p></div>
+                            <p>{product.name}</p>
+                            <div><p>{formatPrice(product.newPrice)}</p></div>
                             <div className='cartitem-quantity-action'>
                                 <span 
                                     className="minus"
-                                    onClick={() => removeFromCart(product.productId, product.color)}
+                                    onClick={() => removeFromCart(product.id)}
                                 >
                                     -
                                 </span>
@@ -91,19 +91,18 @@ function CartItems() {
                                 <span 
                                     className="plus"
                                     onClick={() => addToCart(
-                                        product.productId,
+                                        product.id,
                                         product.name, 
-                                        product.color,
                                         product.image,
-                                        product.new_price,
+                                        product.newPrice,
                                         product.pld_price
                                     )}
                                 >
                                     +
                                 </span>
                             </div>
-                            <div><p>{formatPrice(product.new_price * product.quantity)}</p></div>
-                            <img className='cartitem-delete-icon' src={remove_icon} onClick={() => deleteFromCart(product.productId, product.color)} alt="" />
+                            <div><p>{formatPrice(product.newPrice * product.quantity)}</p></div>
+                            <img className='cartitem-delete-icon' src={remove_icon} onClick={() => deleteFromCart(product.id)} alt="" />
                         </div>
                         <hr />
                     </div>
