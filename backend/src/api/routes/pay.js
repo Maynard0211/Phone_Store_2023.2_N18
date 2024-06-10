@@ -1,22 +1,18 @@
 import express from "express";
-import responseError from "../res/response.js";
-import { callRes } from "../res/response.js";
-import $ from "jquery" ;
-import request from 'request';
 import moment from 'moment';
 import querystring from 'qs';
 import crypto from "crypto";    
 
+
 // Import database connection
 import connection from "../../db/connect.js";
-import { fetchUser } from "../middlewares/fetchUserIDFromToken.js";
+
 
 const router = express.Router();
 const vnp_TmnCode = "N503GXRD";
 const vnp_HashSecret = "Q4KHLNJCZC3P7GS3YQH7POP2RFUQ9JZS";
 const vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-const vnp_Api = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
-const vnp_ReturnUrl = "http://localhost:4000/pay/vnpay_return"
+const vnp_ReturnUrl = "http://localhost:4000/pay/vnpay_return";
 
 // Du lieu dau vao la so tien = amount, va bankCode, hien tai chi ho tro test bankCode la NCB, JCB
 router.post('/create_payment_url',function (req, res, next) {
@@ -88,10 +84,9 @@ router.get('/vnpay_return', function (req, res, next) {
     if(secureHash === signed){
         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
         res.status(200).json({
-            success: false,
+            success: true,
             message: 'Thành công'
           });
-       
     } else{
         res.status(404).json({
             success: false,
