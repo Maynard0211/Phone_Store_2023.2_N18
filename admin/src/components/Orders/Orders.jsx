@@ -41,6 +41,7 @@ const Orders = () => {
                   <th>Địa chỉ</th>
                   <th>Thời gian</th>
                   <th>Tổng hóa đơn</th>
+                  <th>Trạng thái thanh toán</th>
                   <th>Chi tiết</th>
                 </tr>
               </thead>
@@ -56,6 +57,7 @@ const Orders = () => {
                         <td data-label="Địa chỉ">{order.address}</td>
                         <td data-label="Thời gian">{order.date}</td>
                         <td data-label="Tổng hóa đơn">{formatPrice(order.total)}</td>
+                        <td data-label="Trạng thái thanh toán">{order.paymentStatus}</td>
                         <td data-label="Chi tiết" className="right__iconTable">
                           <Link to={`/template/orderDetails/${order.id}`}>
                             <img src={IconEdit} alt="" />
