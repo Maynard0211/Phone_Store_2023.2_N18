@@ -7,7 +7,7 @@ import vnpayIcon from '../Assets/vnpay.png'
 import shipperPayment from '../Assets/shipper-payment.jpg'
 import tickIcon from '../Assets/download.svg'
 
-function PaymentModal({ handlePopup }) {
+function PaymentModal({ modal, handlePopup }) {
   return (
     <>
         <div className="payment-overlay"></div>
@@ -46,7 +46,7 @@ function PaymentModal({ handlePopup }) {
                 </div>
             </div>
             <div className="payment-modal__bottom">
-                <button disabled="disabled" className="btn btn-danger">
+                <button disabled={`${modal === "" ? "disabled" : ""}`} className="btn btn-danger">
                     Xác nhận
                 </button>
             </div>

@@ -45,7 +45,6 @@ function ShopCategory({ category }) {
         })
     }
   }, [brand, category])
-  console.log(products);
 
   return (
     <div className='category-container'>
