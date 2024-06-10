@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from 'axios'
 
 import uploadArea from '../../assets/upload_area.svg'
@@ -19,6 +19,7 @@ const EditProduct = () => {
     newPrice: "",
     quantity: "",
     keyword: "",
+    status: "",
     description: ""
   })
   const [image, setImage] = useState(null);
@@ -81,6 +82,15 @@ const EditProduct = () => {
           res.data.status === 200 ? alert("Product Updated") : alert("Failed");
          })
       }
+  }
+
+  const updateStatus = () => {
+    let product = productDetails;
+
+    axios.patch('http://localhost:4000/product/updateStatus', {
+      id: product.id,
+      status: `${product.status === "true" ? "false" : "true"}`
+    })
   }
 
   return (
@@ -167,7 +177,13 @@ const EditProduct = () => {
             </div>
             <div style={{display: "flex"}}>
               <div onClick={() => updateProduct()} className="btn" style={{width: "40%"}}>Cập nhật sản phẩm</div>
-              <div className="btn" style={{backgroundColor: "#d70018", width: "40%"}}>Ngừng bán</div>
+              <div className="btn" onClick={() => updateStatus()} style={{backgroundColor: `${productDetails.status === "true" ? '#d70018' : '#32CD32'}`, width: "40%"}}>
+                <Link style={{color: "#fff"}} to='/template/products'>
+                  {
+                    productDetails.status === "true" ? 'Ngừng bán' : 'Mở bán'
+                  }
+                </Link>
+              </div>
             </div>
           </form>
         </div>

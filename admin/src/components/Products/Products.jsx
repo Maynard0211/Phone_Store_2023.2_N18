@@ -61,7 +61,7 @@ const Products = () => {
                         <td data-label="Giá SP">{formatPrice(product.newPrice)}</td>
                         <td data-label="Đã bán">{product.sold}</td>
                         <td data-label="Số lượng">{product.quantity}</td>
-                        <td data-label="Trạng thái"></td>
+                        <td data-label="Trạng thái" style={{color: `${product.status === 'true' ? '' : '#d70018'}`}}>{product.status === 'true' ? 'Đang bán' : 'Ngừng bán'}</td>
                         <td data-label="Sửa" className="right__iconTable">
                           <Link to={`/template/editProduct/${product.id}`}>
                             <img src={IconEdit} alt="" />

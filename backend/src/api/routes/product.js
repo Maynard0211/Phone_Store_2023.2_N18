@@ -122,9 +122,9 @@ router.delete("/delete/:id", (req, res) => {
 });
 
 router.patch("/updateStatus", (req, res) => {
-  let user = req.body;
+  let product = req.body;
   var query = "update product set status=? where id=?";
-  connection.query(query, [user.status, user.id], (err, results) => {
+  connection.query(query, [product.status, product.id], (err, results) => {
     if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
     return callRes(res, responseError.OK, results);
   });
