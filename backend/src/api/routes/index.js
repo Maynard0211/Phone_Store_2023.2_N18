@@ -5,6 +5,7 @@ import { router as categoryRouter } from "./category.js";
 import { router as cartRouter } from "./cart.js"
 import { router as addressRouter } from "./address.js";
 import { router as brandRouter } from "./brand.js";
+import { router as payRouter } from "./pay.js"
 
 function route(app) {
     app.use('/product', productRouter);
@@ -13,7 +14,8 @@ function route(app) {
     app.use('/order', orderRouter);
     app.use('/user', userRouter);
     app.use('/cart', cartRouter);
-    app.use('/address', addressRouter)
+    app.use('/address', addressRouter);
+    app.use('/pay', payRouter);
 }
 
 export { route };
