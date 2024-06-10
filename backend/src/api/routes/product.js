@@ -34,10 +34,10 @@ router.post("/add", (req, res) => {
 });
 
 router.get("/get", (req, res) => {
-  var query = `select p.*, c.name as categoryName, b.name as brandName 
-              from product as p 
-              INNER JOIN category as c where p.categoryId=c.id
-              INNER JOIN brand as b where p.brandId=b.id`;
+  var query = `SELECT p.*, c.name as categoryName, b.name as brandName
+              FROM product as p
+              JOIN category as c ON p.categoryId = c.id
+              JOIN brand as b ON p.brandId = b.id`;
   connection.query(query, (err, results) => {
     console.log(err);
     if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
