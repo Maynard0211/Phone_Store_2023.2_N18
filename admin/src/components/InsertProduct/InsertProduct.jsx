@@ -74,7 +74,7 @@ const InsertProduct = () => {
     <div className="right">
       <div className="right__content">
         <div className="right__title">Bảng điều khiển</div>
-        <p className="right__desc">Thêm điện thoại</p>
+        <p className="right__desc">Thêm sản phẩm</p>
         <div className="right__formWrapper">
           <form action="" method="post" encType="multipart/form-data">
             <div className="right__inputWrapper">
@@ -86,6 +86,17 @@ const InsertProduct = () => {
               <select onChange={(e) => handleChange(e)} value={productDetails.categoryId} name="categoryId">
                 <option disabled="">
                   Chọn danh mục
+                </option>
+                {categories.map((category, index) => {
+                  return <option key={index} value={category.id}>{category.name}</option>
+                })}
+              </select>
+            </div>
+            <div className="right__inputWrapper">
+              <label htmlFor="p_category">Tên thương hiệu</label>
+              <select onChange={(e) => handleChange(e)} value={productDetails.categoryId} name="categoryId">
+                <option disabled="">
+                  Chọn thương hiệu
                 </option>
                 {categories.map((category, index) => {
                   return <option key={index} value={category.id}>{category.name}</option>
