@@ -9,13 +9,14 @@ const router = express.Router();
 
 router.post("/add", (req, res) => {
   let product = req.body;
-  let query = `INSERT INTO product (name, categoryId, image, label, oldPrice, newPrice, keyword, quantity, description) 
+  let query = `INSERT INTO product (name, categoryId, brandId, image, label, oldPrice, newPrice, keyword, quantity, description) 
               values (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   connection.query(
     query,
     [
       product.name,
       product.categoryId,
+      product.brandId,
       product.image,
       product.label,
       product.oldPrice,
@@ -33,7 +34,10 @@ router.post("/add", (req, res) => {
 });
 
 router.get("/get", (req, res) => {
-  var query = `select p.*, c.name as categoryName from product as p INNER JOIN category as c where p.categoryId=c.id`;
+  var query = `select p.*, c.name as categoryName, b.name as brandName 
+              from product as p 
+              INNER JOIN category as c where p.categoryId=c.id
+              INNER JOIN brand as b where p.brandId=b.id`;
   connection.query(query, (err, results) => {
     console.log(err);
     if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
@@ -44,6 +48,16 @@ router.get("/get", (req, res) => {
 router.get("/getByCategory/:id", (req, res) => {
   const id = req.params.id;
   var query = `select * from product where categoryId=? and status ='true'`;
+  connection.query(query, [id], (err, results) => {
+    console.log(results);
+    if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
+    return callRes(res, responseError.OK, results);
+  });
+});
+
+router.get("/getByBrand/:id", (req, res) => {
+  const id = req.params.id;
+  var query = `select * from product where brandId=? and status ='true'`;
   connection.query(query, [id], (err, results) => {
     console.log(results);
     if (err) return callRes(res, responseError.UNKNOWN_ERROR, null);
@@ -65,6 +79,7 @@ router.patch("/update", (req, res) => {
   var query = `update product set 
                 name=?, 
                 categoryId=?,
+                brandId=?,
                 image=?,
                 label=?,
                 oldPrice=?,
@@ -79,6 +94,7 @@ router.patch("/update", (req, res) => {
     [
       product.name,
       product.categoryId,
+      product.brandId,
       product.image,
       product.label,
       product.oldPrice,
