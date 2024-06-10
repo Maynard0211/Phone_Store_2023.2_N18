@@ -41,12 +41,13 @@ CREATE TABLE product(
 CREATE TABLE orders (
   id INT PRIMARY KEY AUTO_INCREMENT,
   userId INT NOT NULL,
+  email VARCHAR(100) NOT NULL,
   customerName varchar(255) NOT NULL,
   phone varchar(10) NOT NULL,
   address varchar(255) NOT NULL,
   date varchar(255) DEFAULT CURRENT_TIMESTAMP,
   warranty varchar(255) NOT NULL,
-  description varchar(1000) NOT NULL,
+  description varchar(1000),
   FOREIGN KEY (userId) REFERENCES users(id)
 );
 
