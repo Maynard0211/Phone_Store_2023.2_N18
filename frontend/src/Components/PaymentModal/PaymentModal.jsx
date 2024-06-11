@@ -21,30 +21,25 @@ function PaymentModal({ modal, handlePopup, handlePayment }) {
                 <div className="payment-modal__body-main">
                     <div className="list-payment">
                         <p>Khả dụng</p>
-                        <div onClick={() => handlePayment(payment.THANH_TOAN_KHI_NHAN_HANG.name)} 
-                            className={`list-payment__item ${modal === payment.THANH_TOAN_KHI_NHAN_HANG.name ? "list-payment__item--active" : ''}`}
-                        >
-                            <div className="payment-item__img">
-                                <img src={payment.THANH_TOAN_KHI_NHAN_HANG.image} alt="" />
-                            </div>
-                            <div className="payment-item__title">
-                                <p>{payment.THANH_TOAN_KHI_NHAN_HANG.name}</p>
-                            </div>
-                            <div className="payment-item__tick"></div>
-                        </div>
-                        <div onClick={() => handlePayment(payment.VNPAY.name)} 
-                            className={`list-payment__item ${modal === payment.VNPAY.name ? "list-payment__item--active" : ''}`}
-                        >
-                            <div className="payment-item__img">
-                                <img src={payment.VNPAY.image} alt="" />
-                            </div>
-                            <div className="payment-item__title">
-                                <p>{payment.VNPAY.name}</p>
-                            </div>
-                            <div className="payment-item__tick">
-                                <img src={tickIcon} alt="" />
-                            </div>
-                        </div>
+                        {
+                            payment.map((mode, index) => {
+                                return (
+                                    <div key={index} onClick={() => handlePayment(mode.name)} 
+                                        className={`list-payment__item ${modal === mode.name ? "list-payment__item--active" : ''}`}
+                                    >
+                                        <div className="payment-item__img">
+                                            <img src={mode.image} alt="" />
+                                        </div>
+                                        <div className="payment-item__title">
+                                            <p>{mode.name}</p>
+                                        </div>
+                                        <div className="payment-item__tick">
+                                            <img src={tickIcon} alt="" />
+                                        </div> 
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
             </div>
