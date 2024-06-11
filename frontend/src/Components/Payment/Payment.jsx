@@ -6,8 +6,9 @@ import './Payment.css'
 import paymentIcon from '../Assets/payment.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { payment } from '../Assets/payment.js'
 
-function Payment({ order }) {
+function Payment({ order, handleChange }) {
   const { formatPrice, getTotalCost, getTotalItems } = useContext(ShopContext);
   const [isModal, setIsModal] = useState(false);
 
@@ -65,7 +66,7 @@ function Payment({ order }) {
           </div>
         </div>
         <div className="payment-quote__modal">
-          {isModal && <PaymentModal modal={order.paymentModal} handlePopup={() => setIsModal(!isModal)} />}
+          {isModal && <PaymentModal modal={order.paymentModal} handlePayment={(value) => handleChange('paymentModal', value)} handlePopup={() => setIsModal(!isModal)} />}
         </div>
       </div>
       <div className="address-quote">
