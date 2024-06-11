@@ -13,9 +13,10 @@ function Order() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isViewList, setIsViewList] = useState(false);
+  const token = localStorage.getItem('auth-token');
   const user = JSON.parse(localStorage.getItem('user'));
   const bankCode = "NCB";
-  const amount = getTotalCost();
+  const amount = getTotalCost() || 10000;
   const [order, setOrder] = useState({
     username: user.username,
     email: user.email,
@@ -54,6 +55,12 @@ function Order() {
     } catch (error) {
       console.error(error);
     }
+
+    axios.post('http://localhost:4000/order/add', order, {
+      headers: {
+        "auth-token": token
+      }
+    })
   };
 
   
@@ -89,23 +96,15 @@ function Order() {
             </div>
           </div>
           <div className="btn-submit">
-<<<<<<< HEAD
-            <button onClick={() => handlePayment()} className="btn btn-danger">
-              {
-                location.pathname === '/order/payment-info' ? "Tiếp tục" : "Thanh toán"
-              }
-            </button>
-=======
             {
               (location.pathname === '/order/payment-info') ?
               <button onClick={() => handleSubmit()} className="btn btn-danger">
                 Tiếp tục
               </button> :
-              <button onClick={() => handleSubmit()} className="btn btn-danger">
+              <button onClick={() => handlePayment()} className="btn btn-danger">
                 Thanh toán
               </button>
             }
->>>>>>> 4926b63defbec55e07c6ae3c84d529937c92d226
             {
               (location.pathname === '/order/payment') &&
               <div id='viewListItemInQuote'>

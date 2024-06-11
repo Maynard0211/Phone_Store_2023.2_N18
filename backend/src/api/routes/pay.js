@@ -12,7 +12,7 @@ const router = express.Router();
 const vnp_TmnCode = "N503GXRD";
 const vnp_HashSecret = "Q4KHLNJCZC3P7GS3YQH7POP2RFUQ9JZS";
 const vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-const vnp_ReturnUrl = "http://localhost:4000/pay/vnpay_return";
+const vnp_ReturnUrl = "http://localhost:3000/order/";
 
 // Du lieu dau vao la so tien = amount, va bankCode, hien tai chi ho tro test bankCode la NCB, JCB
 router.post('/create_payment_url',function (req, res, next) {
