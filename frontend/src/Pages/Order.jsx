@@ -89,11 +89,23 @@ function Order() {
             </div>
           </div>
           <div className="btn-submit">
+<<<<<<< HEAD
             <button onClick={() => handlePayment()} className="btn btn-danger">
               {
                 location.pathname === '/order/payment-info' ? "Tiếp tục" : "Thanh toán"
               }
             </button>
+=======
+            {
+              (location.pathname === '/order/payment-info') ?
+              <button onClick={() => handleSubmit()} className="btn btn-danger">
+                Tiếp tục
+              </button> :
+              <button onClick={() => handleSubmit()} className="btn btn-danger">
+                Thanh toán
+              </button>
+            }
+>>>>>>> 4926b63defbec55e07c6ae3c84d529937c92d226
             {
               (location.pathname === '/order/payment') &&
               <div id='viewListItemInQuote'>

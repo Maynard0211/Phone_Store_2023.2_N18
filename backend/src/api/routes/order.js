@@ -124,22 +124,24 @@ router.get("/all", (req, res) => {
 });
 
 // API POST: Thêm hóa đơn bán mới
-router.post("/add", fetchUser, (req, res) => {
+router.post("/add", fetchUser, async (req, res) => {
   const {
     userId,
     customerName,
     phone,
     address,
     warranty,
+    paymentModal,
+    paymentStatus,
     description,
     orderedProducts
   } = req.body;
   const query =
-  "INSERT INTO orders (userId, customerName, phone, address, warranty, description) VALUES (?, ?, ?, ?, ?, ?)";
+  "INSERT INTO orders (userId, customerName, phone, address, warranty, paymentModal, paymentStatus, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   
   connection.query(
     query,
-    [userId, customerName, phone, address, warranty, description],
+    [userId, customerName, phone, address, warranty, paymentModal, paymentStatus, description],
     (error, insertOrderResults) => {
       if (error) {
         console.log(insertOrderResults);
@@ -149,12 +151,20 @@ router.post("/add", fetchUser, (req, res) => {
       }
 
       const orderId = insertOrderResults.insertId;
-      const orderedProductValues = orderedProducts.map((item) => [
-        orderId,
-        item.productId,
-        item.price,
-        item.quantity
-      ]);
+      const orderedProductValues = orderedProducts.map((item) => {
+        connection.query(
+          "SELECT newPrice as price FROM product WHERE id = ?",
+          [item.productId],
+          (results) => {
+            return ([
+              orderId,
+              item.productId,
+              results[0].price,
+              item.quantity
+            ])
+          }
+        )
+      });
 
       connection.query(
         "INSERT INTO orderedproduct (orderId, productId, price, quantity) VALUES ?",

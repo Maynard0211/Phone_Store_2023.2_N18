@@ -77,7 +77,6 @@ const Login = (props) => {
                 <FormGroup  className="my-3">
                   <div className="d-flex justify-content-between">
                     <FormText>Mật khẩu</FormText>
-                    <Link to="/error">Quên mật khẩu ?</Link>
                   </div>
                   <Input
                     id="password"

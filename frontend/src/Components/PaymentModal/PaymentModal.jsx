@@ -3,11 +3,10 @@ import React from 'react'
 import './PaymentModal.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import vnpayIcon from '../Assets/vnpay.png'
-import shipperPayment from '../Assets/shipper-payment.jpg'
+import { payment } from '../Assets/payment.js'
 import tickIcon from '../Assets/download.svg'
 
-function PaymentModal({ modal, handlePopup }) {
+function PaymentModal({ modal, handlePopup, handlePayment }) {
   return (
     <>
         <div className="payment-overlay"></div>
@@ -22,31 +21,30 @@ function PaymentModal({ modal, handlePopup }) {
                 <div className="payment-modal__body-main">
                     <div className="list-payment">
                         <p>Khả dụng</p>
-                        <div className="list-payment__item">
-                            <div className="payment-item__img">
-                                <img src={shipperPayment} alt="" />
-                            </div>
-                            <div className="payment-item__title">
-                                <p>Thanh toán khi nhận hàng</p>
-                            </div>
-                            <div className="payment-item__tick"></div>
-                        </div>
-                        <div className="list-payment__item list-payment__item--active">
-                            <div className="payment-item__img">
-                                <img src={vnpayIcon} alt="" />
-                            </div>
-                            <div className="payment-item__title">
-                                <p>VNPAY</p>
-                            </div>
-                            <div className="payment-item__tick">
-                                <img src={tickIcon} alt="" />
-                            </div>
-                        </div>
+                        {
+                            payment.map((mode, index) => {
+                                return (
+                                    <div key={index} onClick={() => handlePayment(mode.name)} 
+                                        className={`list-payment__item ${modal === mode.name ? "list-payment__item--active" : ''}`}
+                                    >
+                                        <div className="payment-item__img">
+                                            <img src={mode.image} alt="" />
+                                        </div>
+                                        <div className="payment-item__title">
+                                            <p>{mode.name}</p>
+                                        </div>
+                                        <div className="payment-item__tick">
+                                            <img src={tickIcon} alt="" />
+                                        </div> 
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
             </div>
             <div className="payment-modal__bottom">
-                <button disabled={`${modal === "" ? "disabled" : ""}`} className="btn btn-danger">
+                <button onClick={() => handlePopup()} disabled={`${modal === "" ? "disabled" : ""}`} className="btn btn-danger">
                     Xác nhận
                 </button>
             </div>

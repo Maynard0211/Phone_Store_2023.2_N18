@@ -51,6 +51,10 @@ const OrderDetails = () => {
             <div className="right__value">{order.date}</div>
             <div className="right__label">Hạn bảo hành</div>
             <div className="right__value">{order.warranty}</div>
+            <div className="right__label">Phương thức thanh toán</div>
+            <div className="right__value">{order.paymentModal}</div>
+            <div className="right__label">Trạng thái thanh toán</div>
+            <div className="right__value">{order.paymentStatus}</div>
             <div className="right__label">Mô tả</div>
             <div className="right__value">{order.description}</div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../../Context/ShopContext'
 import PaymentModal from '../PaymentModal/PaymentModal';
 
@@ -6,12 +6,23 @@ import './Payment.css'
 import paymentIcon from '../Assets/payment.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { payment } from '../Assets/payment.js'
 
-function Payment({ order }) {
+function Payment({ order, handleChange }) {
   const { formatPrice, getTotalCost, getTotalItems } = useContext(ShopContext);
   const [isModal, setIsModal] = useState(false);
 
   const user = JSON.parse(localStorage.getItem('user'));
+  const [paymentModal, setPaymentModal] = useState({
+    name: "Chọn phương thức thanh toán",
+    image: paymentIcon
+  })
+  useEffect(() => {
+    let modal = payment.find(item => item.name === order.paymentModal)
+    if (modal) {
+      setPaymentModal(modal)
+    }
+  }, [order.paymentModal])
 
   return (
     <>
@@ -54,18 +65,17 @@ function Payment({ order }) {
         <p>Thông tin thanh toán</p>
         <div onClick={() => setIsModal(!isModal)} className="payment-quote__main">
           <div className="payment-main__img">
-            <img src={paymentIcon} alt="" />
+            <img src={paymentModal.image} alt="" />
           </div>
           <div className="payment-main__title">
-            <p>Chọn phương thức thanh toán</p>
-            <span>Nhận thêm nhiều ưu đãi tại cổng</span>
+            <p>{paymentModal.name}</p>
           </div>
           <div className="payment-main__arrow">
             <FontAwesomeIcon icon={faAngleRight} />
           </div>
         </div>
         <div className="payment-quote__modal">
-          {isModal && <PaymentModal modal={order.paymentModal} handlePopup={() => setIsModal(!isModal)} />}
+          {isModal && <PaymentModal modal={order.paymentModal} handlePayment={(value) => handleChange('paymentModal', value)} handlePopup={() => setIsModal(!isModal)} />}
         </div>
       </div>
       <div className="address-quote">
