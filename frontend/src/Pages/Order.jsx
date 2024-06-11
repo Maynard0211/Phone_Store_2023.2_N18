@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { ShopContext } from '../Context/ShopContext'
 import axios from 'axios';
@@ -63,6 +63,14 @@ function Order() {
     })
   };
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    console.log(urlParams.get('vnp_ResponseCode'));
+    if (urlParams.get('vnp_ResponseCode')) {
+      navigate('/');
+      alert("Thanh toán thành công");
+    }
+  }, [])
   
   return (
     <div className='order'>
