@@ -104,6 +104,7 @@ router.get("/all", (req, res) => {
               console.error("Lỗi truy vấn cơ sở dữ liệu: ", error);
               reject(error);
             } else {
+              console.log(result[0]);
               order.total = result[0].total;
               resolve(order);
             }
@@ -124,7 +125,7 @@ router.get("/all", (req, res) => {
 });
 
 // API POST: Thêm hóa đơn bán mới
-router.post("/add", fetchUser, async (req, res) => {
+router.post("/add", fetchUser, (req, res) => {
   const {
     userId,
     customerName,
@@ -151,20 +152,12 @@ router.post("/add", fetchUser, async (req, res) => {
       }
 
       const orderId = insertOrderResults.insertId;
-      const orderedProductValues = orderedProducts.map((item) => {
-        connection.query(
-          "SELECT newPrice as price FROM product WHERE id = ?",
-          [item.productId],
-          (results) => {
-            return ([
-              orderId,
-              item.productId,
-              results[0].price,
-              item.quantity
-            ])
-          }
-        )
-      });
+      const orderedProductValues = orderedProducts.map((item) => [
+        orderId,
+        item.productId,
+        item.price,
+        item.quantity
+      ]);
 
       connection.query(
         "INSERT INTO orderedproduct (orderId, productId, price, quantity) VALUES ?",

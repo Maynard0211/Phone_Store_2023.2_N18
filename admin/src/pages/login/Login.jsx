@@ -97,10 +97,7 @@ const Login = (props) => {
                   <p className="social-label mb-0">Đăng nhập với</p>
                   <div className="socials">
                     <a href="https://flatlogic.com/"><GoogleIcon /></a>
-                    <a href="https://flatlogic.com/"><TwitterIcon /></a>
                     <a href="https://flatlogic.com/"><FacebookIcon /></a>
-                    <a href="https://flatlogic.com/"><GithubIcon /></a>
-                    <a href="https://flatlogic.com/"><LinkedinIcon /></a>
                   </div>
                 </div>
                 <Link to="/register">Không có tài khoản ? Đăng ký tại đây</Link>
