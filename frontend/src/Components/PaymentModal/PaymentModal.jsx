@@ -44,7 +44,7 @@ function PaymentModal({ modal, handlePopup, handlePayment }) {
                 </div>
             </div>
             <div className="payment-modal__bottom">
-                <button disabled={`${modal === "" ? "disabled" : ""}`} className="btn btn-danger">
+                <button onClick={() => handlePopup()} disabled={`${modal === "" ? "disabled" : ""}`} className="btn btn-danger">
                     Xác nhận
                 </button>
             </div>
