@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import './Popular.css'
 import Item from '../Item/Item'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { ShopContext } from '../../Context/ShopContext';
 
 function Popular({ category }) {
   const [popularProducts, setPopularProducts] = useState([]);
@@ -13,14 +15,18 @@ function Popular({ category }) {
   const elementRef = useRef(null);
   const [width, setWidth] = useState(0);
   const [maxIndex, setMaxIndex] = useState(0);
+  const { normalizeString } = useContext(ShopContext);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/product/popular/${category}`)
-      .then((res) => res.json())
-      .then((data) => setPopularProducts(data));
+    axios.get(`http://localhost:4000/product/sales/${category}`)
+      .then((res) => {
+        if (res.data.status === 200) {
+          setPopularProducts(res.data.results)
+        }
+      })
 
     switch (category) {
-      case 'Mobile':
+      case 1:
         setTitle('ĐIỆN THOẠI')
         break;
 
@@ -28,7 +34,7 @@ function Popular({ category }) {
         setTitle('MÁY TÍNH BẢNG')
         break;
       
-      case 'Laptop':
+      case 2:
         setTitle('LAPTOP')
         break;
 
@@ -98,7 +104,7 @@ function Popular({ category }) {
       {(popularProducts.length > 0) && 
         <div className='popular'>
           <div className="product-list-title">
-            <Link to={`/${category.toLowerCase()}`} className='title'>
+            <Link to={`/${normalizeString(title)}`} className='title'>
               <h2>{title} NỔI BẬT</h2>
             </Link>
           </div>
@@ -119,7 +125,7 @@ function Popular({ category }) {
                         <Item 
                           id={product.id}
                           name={product.name}
-                          image={product.images[0]}
+                          image={product.image}
                           newPrice={product.newPrice}
                           oldPrice={product.oldPrice}
                         />
