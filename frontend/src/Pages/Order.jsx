@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { ShopContext } from '../Context/ShopContext'
-
+import axios from 'axios';
 import './CSS/Order.css'
 
 import PaymentInfo from '../Components/PaymentInfo/PaymentInfo';
@@ -14,6 +14,8 @@ function Order() {
   const location = useLocation();
   const [isViewList, setIsViewList] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
+  const bankCode = "NCB";
+  const amount = getTotalCost();
   const [order, setOrder] = useState({
     username: user.username,
     email: user.email,
@@ -35,7 +37,26 @@ function Order() {
       navigate('/order/payment');
     }
   }
+  const handlePayment = async (event) => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: 'http://localhost:4000/pay/create_payment_url',
+        withCredentials: false,
+        data:{
+        amount,
+        bankCode,}
+      });
+      const urlData = response.data;
+      const paymentUrl = urlData.originalUrl;
 
+      window.open(paymentUrl, '_blank');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  
   return (
     <div className='order'>
       <div className="order-container">
@@ -68,7 +89,7 @@ function Order() {
             </div>
           </div>
           <div className="btn-submit">
-            <button onClick={() => handleSubmit()} className="btn btn-danger">
+            <button onClick={() => handlePayment()} className="btn btn-danger">
               {
                 location.pathname === '/order/payment-info' ? "Tiếp tục" : "Thanh toán"
               }
